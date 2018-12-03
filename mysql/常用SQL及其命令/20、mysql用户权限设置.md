@@ -21,6 +21,10 @@ grant all privileges on *.* to testuser@localhost identified by "123456" ;
 #　　设置用户testuser，可以在远程访问mysql
 grant all privileges on *.* to testuser@"%" identified by "123456" ;
 
+# 如果你想允许用户jack从ip为10.10.50.127的主机连接到mysql服务器，并使用654321作为密码
+ GRANT ALL PRIVILEGES ON *.* TO 'jack'@’10.10.50.127’ IDENTIFIED BY '654321' WITH GRANT OPTION;
+ 
+
 #    mysql 新设置用户或更改密码后需用flush privileges刷新MySQL的系统权限相关表，
 #    否则会出现拒绝访问，还有一种方法，就是重新启动mysql服务器，来使新设置生效
 flush privileges ;
