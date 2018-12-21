@@ -29,3 +29,11 @@ mysql删除多个字段：alter table tablename drop column1,drop column2
 ```
 
 sp_rename：SQLServer 内置的存储过程，用与修改表的定义。
+
+## mysql 触发器自动更新时间
+
+字段的设置
+```mysql
+
+`update_time` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+```
