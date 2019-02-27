@@ -4,19 +4,19 @@
 
 ## 一、相关名词
 
-|--表级锁（锁定整个表）
+- 表级锁（锁定整个表）
 
-|--页级锁（锁定一页）
+- 页级锁（锁定一页）
 
-|--行级锁（锁定一行）
+- 行级锁（锁定一行）
 
-|--共享锁（S锁，MyISAM 叫做读锁）
+- 共享锁（S锁，MyISAM 叫做读锁）
 
-|--排他锁（X锁，MyISAM 叫做写锁）
+- 排他锁（X锁，MyISAM 叫做写锁）
 
-|--悲观锁（抽象性，不真实存在这个锁）
+- 悲观锁（抽象性，不真实存在这个锁）
 
-|--乐观锁（抽象性，不真实存在这个锁）
+- 乐观锁（抽象性，不真实存在这个锁）
 
  
 
@@ -94,13 +94,14 @@ T2 之所以要等，是因为 T2 在执行 update 前，试图对 table 表加�
  
 
 例2：  
+
 ```mysql
 
 T1:select * from table lock in share mode
 
 T2:select * from table lock in share mode
 
- ```
+```
 
 这里T2不用等待T1执行完，而是可以马上执行。
 
@@ -113,6 +114,7 @@ T1运行，则 table 被加锁，比如叫lockAT2运行，再对 table 加一个
  
 
 例3： 
+
 ```mysql
 T1:select * from table lock in share mode
 
@@ -128,6 +130,7 @@ T2 不用等 T1 运行完就能运行，T3 却要等 T1 和 T2 都运行完才�
  
 
 例4：（死锁的发生）
+
 ```mysql
 T1:begin tran
 
@@ -205,6 +208,7 @@ T2 在执行 select 时，就需要等 T1 事物完全执行完才能执行。
  
 
 例7：
+
 ```mysql
 T1:begin tran
 
@@ -217,8 +221,7 @@ T2:begin tran
      select * from table (加更新锁)
 
      update table set column1='world'
-
- ```
+```
 
 更新锁其实就可以看成排他锁的一种变形，只是它也允许其他人读（并且还允许加共享锁）。
 但不允许其他操作，除非我释放了更新锁。
