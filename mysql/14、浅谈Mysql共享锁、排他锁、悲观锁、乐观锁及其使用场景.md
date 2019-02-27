@@ -132,6 +132,7 @@ T2 不用等 T1 运行完就能运行，T3 却要等 T1 和 T2 都运行完才�
 例4：（死锁的发生）
 
 ```mysql
+
 T1:begin tran
 
      select * from table lock in share mode
@@ -144,7 +145,7 @@ T2:begin tran
 
      update table set column1='world'
 
-``` 
+```
 
 假设 T1 和 T2 同时达到 select，T1 对 table 加共享锁，T2 也对 table 加共享锁，
 当 T1 的 select 执行完，准备执行 update 时，根据锁机制，
