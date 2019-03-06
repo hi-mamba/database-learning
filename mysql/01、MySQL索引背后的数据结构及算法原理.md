@@ -354,7 +354,7 @@ MyISAM的索引方式也叫做“非聚集”的，之所以这么称呼是为�
 同时除B-Tree索引外MySQL还根据不同引擎支持的哈希索引、全文索引等等本文也并未涉及。
 如果有机会，希望再对本文未涉及的部分进行补充吧。
 
-参考文献
+参考文献  
 [1] Baron Scbwartz等 著，王小东等 译；高性能MySQL（High Performance MySQL）；电子工业出版社，2010
 
 [2] Michael Kofler 著，杨晓云等 译；MySQL5权威指南（The Definitive Guide to MySQL5）；人民邮电出版社，2006
