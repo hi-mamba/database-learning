@@ -21,7 +21,7 @@ MySQL 是目前使用比较广泛的关系型数据库，而从数据库里面�
 
 ## 二、普通查询
 
-![](../images/myql-driver.png)
+![](../../images/myql-driver.png)
 
 当我们在JVM进程里面的某一个线程里面执行数据库查询时候，其实这个请求首先会调用mysql驱动程序。
 mysql驱动接受到请求后会向MySQL服务器发起TCP请求，服务器端根据条件查询出匹配的数据，然后通过TCP链接发送到MySQL驱动

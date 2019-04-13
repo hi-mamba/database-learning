@@ -11,7 +11,7 @@ select * from User where ID=10086；
 
 根据自己的理解，我画了个不那么专业的执行流程图，先给出这条 SQL 语句的执行流程，再逐步解析每个流程，执行流程图如下：
 
-![](../images/mysql-run.jpg)
+![](../images/mysql/mysql_query_flow.jpg)
 
 你可以清晰地看到，MySQL 其实分为两层，server 层和存储引擎层。
 
