@@ -311,7 +311,21 @@ cluster countkeysinslot <slot> ：返回槽 slot 目前包含的键值对数量�
 cluster getkeysinslot <slot> <count> ：返回 count 个 slot 槽中的键 。
 ```
 
+## 遇到问题
 
+```
+All commands and features belonging to redis-trib.rb have been moved
+
+```
+解决办法:
+```bash
+redis-cli --cluster create 172.16.0.71:9001 172.16.0.71:9002 --cluster-replicas 1
+
+解决方法：原本的命令./redis-trib.rb create --replicas 1 172.16.0.71:9001 172.16.0.71:9002 废弃了，提示改用redis-cli
+
+换成 ./redis-cli --cluster create 127.0.0.1:6379..........便可以解决问题
+```
+[使用redis搭建集群时遇到的问题：You should use redis-cli instead.](https://blog.csdn.net/weixin_39183543/article/details/86102834)
 
 ## 参考
 
