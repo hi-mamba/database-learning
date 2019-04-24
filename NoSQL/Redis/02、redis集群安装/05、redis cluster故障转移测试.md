@@ -1,6 +1,6 @@
 ## [原文](https://www.cnblogs.com/gomysql/p/4395504.html)
 
-# Redis Cluster故障转移测试
+# redis cluster故障转移测试
 
 故障转移测试：
 ```bash

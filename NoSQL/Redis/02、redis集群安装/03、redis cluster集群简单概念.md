@@ -1,7 +1,7 @@
 
 ## [原文](https://www.cnblogs.com/gomysql/p/4395504.html)
 
-# Redis Cluster集群简单概念
+# redis cluster集群简单概念
 
 ## 一 集群简单概念
 
