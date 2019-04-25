@@ -42,6 +42,9 @@ GetBit/SetBit/BitOp,与或非/BitCount， BitMap的玩法，比如统计今天�
 
 Append/SetRange/GetRange/StrLen，对文本进行扩展、替换、截取和求长度，只对特定数据格式如字段定长的有用，json就没什么用。
 
+- 常用命令
+<https://redis.io/commands#string>
+
 ## 3 Hash
 Key-HashMap结构，相比String类型将这整个对象持久化成JSON格式，Hash将对象的各个属性存入Map里，可以只读取/更新对象的某些属性。
 
@@ -56,6 +59,9 @@ Key-HashMap结构，相比String类型将这整个对象持久化成JSON格式�
 (Hash) user:index-> "calvin"->101, "kevin" -> 102
 ```
 底层实现是hash table，一般操作复杂度是O(1)，要同时操作多个field时就是O(N)，N是field的数量。
+
+- 常用命令
+<https://redis.io/commands#hash>
 
 ## 4 List
 List是一个双向链表，支持双向的Pop/Push，江湖规矩一般从左端Push，右端Pop——LPush/RPop，
@@ -90,6 +96,9 @@ LTrim，限制List的大小，比如只保留最新的20条消息。
 
 如果集群管理(如zookeeper)发现worker已经挂掉，就将worker的list内容重新放回主list。
 
+- 常用命令
+
+
 ## 5 Set
 Set就是Set，可以将重复的元素随便放入而Set会自动去重，底层实现也是hash table。
 
@@ -99,6 +108,9 @@ SInter/SInterStore/SUnion/SUnionStore/SDiff/SDiffStore，各种集合操作。
 交集运算可以用来显示在线好友(在线用户 交集 好友列表)，共同关注(两个用户的关注列表的交集)。
 
 O(N)，并集和差集的N是集合大小之和，交集的N是小的那个集合的大小*2。
+
+- 常用命令
+<https://redis.io/commands#set>
 
 ## 6 Sorted Set
 有序集，元素放入集合时还要提供该元素的分数。
@@ -127,3 +139,6 @@ ZAdd/ZRem是O(log(N))，ZRangeByScore/ZRemRangeByScore是O(log(N)+M)，N是Set�
 可见，原本可能很大的N被很关键的Log了一下，1000万大小的Set，复杂度也只是几十不到。
 
 当然，如果一次命中很多元素M很大那谁也没办法了。
+
+- 常用命令
+<https://redis.io/commands#sorted_set>

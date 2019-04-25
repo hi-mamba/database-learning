@@ -13,7 +13,7 @@ List
 
 Set
 
-Sorted set
+Sorted set（zset）
 
 一张图说明问题的本质
 
