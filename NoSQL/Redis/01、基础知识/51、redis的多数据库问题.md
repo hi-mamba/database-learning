@@ -9,6 +9,14 @@ redis 的实例（instance） 等同于 mysql 的库（database）
 redis 的库（database） 等同于 mysql 的表（table）
 ```
 
+> 注意：Redis支持多个数据库，并且每个数据库的数据是隔离的不能共享，并且基于单机才有，如果是集群就没有数据库的概念。
+
+在集群模式下这个配置是不起作用的，集群客户端是不支持多数据库db的，只有一个数据库默认是SELECT 0;   
+```bash
+127.0.0.1:7002> SELECT 1
+(error) ERR SELECT is not allowed in cluster mode
+```
+
 redis也是有数据库的,不过redis是提前创建好了
 
 redis的数据库个数，在配置文件中设定死了，并且名称是不允许改的。
