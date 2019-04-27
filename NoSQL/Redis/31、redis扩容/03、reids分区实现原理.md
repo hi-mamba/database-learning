@@ -165,3 +165,7 @@ MIGRATE命令通过三步将数据转移，示意图如下：
 2）客户端是如何能够正确找到节点的；
 
 3）键空间迁移过程是怎么样的？其次是一些实现小细节，通过了解这些问题更好地了这些问题从而更好地认识Redis Cluster分区功能。
+
+
+
+- [Redis系列（三）：Redis Cluster集群模式](https://phachon.com/redis/redis-3.html)
