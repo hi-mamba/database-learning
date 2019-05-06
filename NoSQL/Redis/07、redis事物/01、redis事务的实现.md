@@ -1,6 +1,6 @@
 ## [原文](https://redisbook.readthedocs.io/en/latest/feature/transaction.html)
 
-# redis 事务
+# redis 事务的实现
 
 Redis 通过 MULTI 、 DISCARD 、 EXEC 和 WATCH 四个命令来实现事务功能， 
 本章首先讨论使用 MULTI 、 DISCARD 和 EXEC 三个命令实现的一般事务， 然后再来讨论带有 WATCH 的事务的实现。
