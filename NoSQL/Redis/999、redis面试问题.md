@@ -94,6 +94,10 @@ Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster�
 ## Redis，RDB和AOF，如何做高可用、集群
 
 
+## Redis为什么这么快
+
+##  Redis 是单线程的，怎么实现的多个客户端的连接访问？
+
 ## memcache与redis的区别
 
 
