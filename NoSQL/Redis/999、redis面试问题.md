@@ -98,7 +98,27 @@ Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster�
 
 ##  Redis 是单线程的，怎么实现的多个客户端的连接访问？
 
-## memcache与redis的区别
+## memcached 与redis的区别
+
+
+
+##  Redis相比 memcached 有哪些优势？
+
+(1) memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型
+
+(2) redis的速度比memcached快很多
+
+(3) redis可以持久化其数据
+
+(4)Redis支持数据的备份，即master-slave模式的数据备份。
+
+(5)、使用底层模型不同
+
+它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。
+
+Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。
+
+(6）value大小：redis最大可以达到1GB，而memcache只有1MB
 
 
 ## 
