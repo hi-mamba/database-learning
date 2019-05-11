@@ -108,6 +108,8 @@ public class RedisKeyLock {
 
 ## Zookeeper分布式锁实现
 
+![](../../../images/redis/zookeeper_lock.png)
+
 ###  a、原理
         ZooKeeper核心是一个精简的文件系统，它提供了一些简单的文件操作以及附加的功能 ，它的数据结构原型是一棵znode树（类似Linux的文件系统），
    并且它们是一些已经被构建好的块，可以用来构建大型的协作数据结构和协议 。
