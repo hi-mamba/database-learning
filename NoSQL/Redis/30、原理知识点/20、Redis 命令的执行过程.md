@@ -2,6 +2,8 @@
 
 ## [原文](http://redisbook.com/preview/server/execute_command.html)
 
+## [源码分析-将输入字符串转换成 Redis 命令请求协议](https://gist.github.com/huangz1990/6451594)
+
 # Redis 命令的执行过程
 
 
