@@ -252,6 +252,8 @@ connected
 6385成了源节点。将刚才新扩容的集群收缩回去。
 ```bash
 ./redis-trib.rb reshard 127.0.0.1:6385
+
+
 >>> Performing Cluster Check (using node 127.0.0.1:6385)
 ......
 [OK] All nodes agree about slots configuration.
@@ -280,6 +282,8 @@ Moving slot 6918 from 127.0.0.1:6385 to 127.0.0.1:6380: ...
 
 ```bash
 127.0.0.1:6380> CLUSTER NODES
+
+
 8f285670923d4f1c599ecc93367c95a30fb8bf34 127.0.0.1:6380 myself,master - 0 0 11 connected 5462-10922
 cb987394a3acc7a5e606c72e61174b48e437cedb 127.0.0.1:6385 master - 0 1496744498017 10 connected
 
@@ -290,6 +294,10 @@ cb987394a3acc7a5e606c72e61174b48e437cedb 127.0.0.1:6385 master - 0 1496744498017
 
 ```bash
 ./redis-trib.rb del-node 127.0.0.1:6379 cdfb1656353c5c7f29d0330a754c71d53cec464c
+
+```
+日志
+``` 
 >>> Removing node cdfb1656353c5c7f29d0330a754c71d53cec464c from cluster 127.0.0.1:6379
 >>> Sending CLUSTER FORGET messages to the cluster...
 >>> SHUTDOWN the node.
@@ -304,6 +312,8 @@ cb987394a3acc7a5e606c72e61174b48e437cedb 127.0.0.1:6385 master - 0 1496744498017
 
 ```bash
 127.0.0.1:6380> CLUSTER NODES
+
+
 6fb7dfdb6188a9fe53c48ea32d541724f36434e9 127.0.0.1:6383 slave 8f285670923d4f1c599ecc93367c95a30fb8bf34 0 1496744890808 11 connecte
 29978c0169ecc0a9054de7f4142155c1ab70258b 127.0.0.1:6379 master - 0 1496744892814 7 connected 0-5461
 66478bda726ae6ba4e8fb55034d8e5e5804223ff 127.0.0.1:6381 master - 0 1496744891810 2 connected 10923-16383
