@@ -1,5 +1,7 @@
 ## [原文](https://gist.github.com/hkhamm/a9a2b45dd749e5d3b3ae)
 
+## [Cassandra 安装 - Mac OS X & Linux](http://www.myoak.info/post/12/)
+
 # Mac安装Cassandra
 
 Install cql   

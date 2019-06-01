@@ -4,6 +4,9 @@
 
 # Redis Cluster 集群扩容与收缩
 
+> Redis5.0发布了，其中更新了一个新的特性，把Redis的集群管理从Ruby(redis-trib.rb)移植到了C语言代码，
+直接使用redis-cli就可以管理集群，今天我们就尝试一下。
+
 ## Redis Cluster 集群伸缩
 
 ### 1. 伸缩原理
@@ -73,6 +76,10 @@ cb987394a3acc7a5e606c72e61174b48e437cedb 127.0.0.1:6385 master - 0 1496731333689
 ```
 
 也可以使用redis专门进行集群管理的工具redis-trib.rb，位于Redis的源码目录中，把6386节点加入到集群中
+
+> 新版本之后 使用下面这个提示使用这个替换
+>> redis-cli --cluster reshard 127.0.0.1:7000
+
 ```bash
 sudo src/redis-trib.rb add-node 127.0.0.1:6386 127.0.0.1:6379
 127.0.0.1:6379> CLUSTER NODES

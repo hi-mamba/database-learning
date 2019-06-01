@@ -9,6 +9,10 @@ Redis集群提供一种方式自动将数据分布在多个Redis节点上。
 
 > 槽 slot
 
+
+> Redis5.0发布了，其中更新了一个新的特性，把Redis的集群管理从Ruby(redis-trib.rb)移植到了C语言代码，
+直接使用redis-cli就可以管理集群，今天我们就尝试一下。
+
 ## 1、Redis集群TCP端口（Redis Cluster TCP ports）
 每个Redis集群中的节点都需要打开两个TCP连接。一个连接用于正常的给Client提供服务，比如6379，
 还有一个额外的端口（通过在这个端口号上加10000）作为数据端口，比如16379。

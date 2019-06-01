@@ -128,6 +128,9 @@ $ redis ps -ef|grep redis
 
 ## 6. 执行命令创建集群，首先安装依赖，否则创建集群失败。
 
+> Redis5.0发布了，其中更新了一个新的特性，把Redis的集群管理从Ruby(redis-trib.rb)移植到了C语言代码，
+直接使用redis-cli就可以管理集群，可以不需要安装ruby了
+
 >  redis5.x.x 好不需要安装这个了.
 
 安装 Ruby
