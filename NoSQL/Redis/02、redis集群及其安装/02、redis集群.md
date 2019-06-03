@@ -1,5 +1,7 @@
 ## [原文](https://www.cnblogs.com/cjsblog/p/9048545.html)
 
+## [Redis5.0客户端redis-cli管理cluster尝试](https://www.18188.org/articles/2018/10/19/1539930723215.html)
+
 # Redis集群
 
 ## 集群简单概念
