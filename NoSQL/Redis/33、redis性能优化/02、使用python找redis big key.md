@@ -2,6 +2,16 @@
 
 # 使用python找redis big key
 
+统计生产上比较大的key
+```bash
+./redis-cli --bigkeys
+
+```
+对redis中的key进行采样，寻找较大的keys。是用的是scan方式，
+不用担心会阻塞redis很长时间不能处理其他的请求。
+执行的结果可以用于分析redis的内存的只用状态，每种类型key的平均大小。
+
+
 感谢一波先：本文参照此文[如何搜索过大的key](https://help.aliyun.com/knowledge_detail/56949.html#concept-frf-r2z-xdb)，
 但此文应该是针对阿里云的redis，里面有不支持的redis命令故重新改一下。
 
