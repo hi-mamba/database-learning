@@ -1,5 +1,9 @@
 
-## [原文](https://www.jianshu.com/p/e8a2c727da66)
+## [通信协议（protocol）](http://redisdoc.com/topic/protocol.html#id12)
+
+## [Redis Protocol specification](https://redis.io/topics/protocol)
+
+## [协议说明](http://redis.cn/topics/protocol)
 
 # 通信协议（protocol）
 
