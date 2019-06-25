@@ -8,7 +8,7 @@
 在这篇文章中，我们将对事务的实现进行分析，尝试理解数据库是如何实现事务的，
 当然我们也会在文章中简单对 MySQL 中对 ACID 的实现进行简单的介绍。
 
-![](../images/mysql/transaction/2017-08-20-Transaction-Basics.jpg)
+![](../../images/mysql/transaction/2017-08-20-Transaction-Basics.jpg)
 
 
 事务其实就是并发控制的基本单位；相信我们都知道，事务是一个序列操作，
@@ -23,7 +23,7 @@
 这其实就是对事务原子性的刻画；虽然事务具有原子性，但是原子性并不是只与事务有关系，
 它的身影在很多地方都会出现。
 
-![](../images/mysql/transaction/2017-08-20-Atomic-Operation.jpg)
+![](../../images/mysql/transaction/2017-08-20-Atomic-Operation.jpg)
 
 由于操作并不具有原子性，并且可以再分为多个操作，当这些操作出现错误或抛出异常时，
 整个操作就可能不会继续执行下去，而已经进行的操作造成的副作用就可能造成数据更新的丢失或者错误。
@@ -37,7 +37,7 @@
 而在 MySQL 中，恢复**_机制是通过回滚日志（undo log）实现_**的，
 所有事务进行的修改都会先记录到这个回滚日志中，然后在对数据库中的对应行进行写入。
 
-![](../images/mysql/transaction/2017-08-20-Transaction-Undo-Log.jpg)
+![](../../images/mysql/transaction/2017-08-20-Transaction-Undo-Log.jpg)
 
 
 这个过程其实非常好理解，为了能够在发生错误时撤销之前的全部操作，
@@ -53,7 +53,7 @@
 可以理解为，我们在事务中使用的每一条 INSERT 都对应了一条 DELETE，
 每一条 UPDATE 也都对应一条相反的 UPDATE 语句。
 
-![](../images/mysql/transaction/2017-08-20-Logical-Undo-Log.jpg)
+![](../../images/mysql/transaction/2017-08-20-Logical-Undo-Log.jpg)
 
 在这里，我们并不会介绍回滚日志的格式以及它是如何被管理的，
 本文重点关注在它到底是一个什么样的东西，究竟解决了、如何解决了什么样的问题，
@@ -64,11 +64,11 @@
 事务的状态也只有三种：Active、Commited 和 Failed，事务要不就在执行中，
 要不然就是成功或者失败的状态：
 
-![](../images/mysql/transaction/2017-08-20-Atomitc-Transaction-State.jpg)
+![](../../images/mysql/transaction/2017-08-20-Atomitc-Transaction-State.jpg)
 
 但是如果放大来看，我们会发现事务不再是原子的，其中包括了很多中间状态，比如部分提交，事务的状态图也变得越来越复杂。
 
-![](../images/mysql/transaction/2017-08-20-Nonatomitc-Transaction-State.jpg)
+![](../../images/mysql/transaction/2017-08-20-Nonatomitc-Transaction-State.jpg)
 
 > 事务的状态图以及状态的描述取自 [Database System Concepts](https://www.amazon.com/Database-System-Concepts-Computer-Science/dp/0073523321) 一书中第 14 章的内容。
 
@@ -88,7 +88,7 @@
 那么这些操作作为可见的外部输出都是没有办法回滚的；
 这些问题都是由应用开发者解决和负责的，在绝大多数情况下，我们都需要在整个事务提交后，再触发类似的无法回滚的操作。
 
-![](../images/mysql/transaction/2017-08-20-Shutdown-After-Commited.jpg)
+![](../../images/mysql/transaction/2017-08-20-Shutdown-After-Commited.jpg)
 
 以订票为例，哪怕我们在整个事务结束之后，才向第三方发起请求，由于向第三方请求并获取结果是一个需要较长时间的操作，
 如果在事务刚刚提交时，数据库或者服务器发生了崩溃，那么我们就非常有可能丢失发起请求这一过程，这就造成了非常严重的问题；
@@ -98,7 +98,7 @@
 到目前为止，所有的事务都只是串行执行的，一直都没有考虑过并行执行的问题；
 然而在实际工作中，并行执行的事务才是常态，然而并行任务下，却可能出现非常复杂的问题：
 
-![](../images/mysql/transaction/2017-08-20-Nonrecoverable-Schedule.jpg)
+![](../../images/mysql/transaction/2017-08-20-Nonrecoverable-Schedule.jpg)
 
 当 Transaction1 在执行的过程中对 id = 1 的用户进行了读写，
 但是没有将修改的内容进行提交或者回滚，
@@ -114,12 +114,12 @@ the commit operation of Ti appears before the commit operation of Tj .
 
 简单理解一下，如果 Transaction2 依赖于事务 Transaction1，那么事务 Transaction1 必须在 Transaction2 提交之前完成提交的操作：
 
-![](../images/mysql/transaction/2017-08-20-Recoverable-Schedule.jpg)
+![](../../images/mysql/transaction/2017-08-20-Recoverable-Schedule.jpg)
 
 然而这样还不算完，当事务的数量逐渐增多时，整个恢复流程也会变得越来越复杂，
 如果我们想要从事务发生的错误中恢复，也不是一件那么容易的事情。
 
-![](../images/mysql/transaction/2017-08-20-Cascading-Rollback.jpg)
+![](../../images/mysql/transaction/2017-08-20-Cascading-Rollback.jpg)
 
 在上图所示的一次事件中，Transaction2 依赖于 Transaction1，而 Transaction3 又依赖于 Transaction1，
 当 Transaction1 由于执行出现问题发生回滚时，为了保证事务的原子性，就会将 Transaction2 和 Transaction3 中的工作全部回滚，
@@ -131,7 +131,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 既然是数据库，那么一定对数据的持久存储有着非常强烈的需求，如果数据被写入到数据库中，那么数据一定能够被安全存储在磁盘上；
 而事务的持久性就体现在，一旦事务被提交，那么数据一定会被写入到数据库中并持久存储起来。
 
-![](../images/mysql/transaction/2017-08-20-Compensating-Transaction.jpg);
+![](../../images/mysql/transaction/2017-08-20-Compensating-Transaction.jpg);
 
 当事务已经被提交之后，就无法再次回滚了，唯一能够撤回已经提交的事务的方式就是创建一个相反的事务对原操作进行『补偿』，
 这也是事务持久性的体现之一。
@@ -141,7 +141,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 与原子性一样，事务的持久性也是通过日志来实现的，MySQL 使用重做日志（redo log）实现事务的持久性，重做日志由两部分组成，
 一是内存中的重做日志缓冲区，因为重做日志缓冲区在内存中，所以它是易失的，另一个就是在磁盘上的重做日志文件，它是持久的。
 
-![](../images/mysql/transaction/2019-02-21-Redo-Logging.jpg)
+![](../../images/mysql/transaction/2019-02-21-Redo-Logging.jpg)
 
 当我们在一个事务中尝试对数据进行修改时，它会先将数据从磁盘读入内存，并更新内存中缓存的数据，
 然后生成一条重做日志并写入重做日志缓存，当事务真正提交时，MySQL 会将重做日志缓存中的内容刷新到重做日志文件，
@@ -162,7 +162,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 2. 在事务提交后，数据没来得及写会磁盘就宕机时，在下次重新启动后能够成功恢复数据（持久性）；
 在数据库中，这两种日志经常都是一起工作的，我们可以将它们整体看做一条事务日志，其中包含了事务的 ID、修改的行元素以及修改前后的值。
 
-![](../images/mysql/transaction/2017-08-20-Transaction-Log.jpg)
+![](../../images/mysql/transaction/2017-08-20-Transaction-Log.jpg)
 
 一条事务日志同时包含了修改前后的值，能够非常简单的进行回滚和重做两种操作，在这里我们也不会对重做和回滚日志展开进行介绍，
 可能会在之后的文章谈一谈数据库系统的恢复机制时提到两种日志的使用。
@@ -176,7 +176,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 如果所有的事务的执行顺序都是线性的，那么对于事务的管理容易得多，
 但是允许事务的并行执行却能能够提升吞吐量和资源利用率，并且可以减少每个事务的等待时间。
 
-![](../images/mysql/transaction/2017-08-20-Reasons-for-Allowing-Concurrency.jpg)
+![](../../images/mysql/transaction/2017-08-20-Reasons-for-Allowing-Concurrency.jpg)
 
 当多个事务同时并发执行时，事务的隔离性可能就会被违反，虽然单个事务的执行可能没有任何错误，
 但是从总体来看就会造成数据库的一致性出现问题，而串行虽然能够允许开发者忽略并行造成的影响，
@@ -203,7 +203,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 但是 MySQL 使用了 REPEATABLE READ 作为默认配置；从 RAED UNCOMMITED 到 SERIALIZABLE，
 随着事务隔离级别变得越来越严格，数据库对于并发执行事务的性能也逐渐下降。
 
-![](../images/mysql/transaction/2017-08-20-Isolation-Performance.jpg);
+![](../../images/mysql/transaction/2017-08-20-Isolation-Performance.jpg);
 
 对于数据库的使用者，从理论上说，并不需要知道事务的隔离级别是如何实现的，
 我们只需要知道这个隔离级别解决了什么样的问题，
@@ -213,7 +213,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 可以阅读之前的文章 『浅入浅出』MySQL 和 InnoDB，
 在这里我们仅放一张图来展示各个隔离层级对这几个问题的解决情况。
 
-![](../images/mysql/transaction/2017-08-20-Transaction-Isolation-Matrix.jpg)
+![](../../images/mysql/transaction/2017-08-20-Transaction-Isolation-Matrix.jpg)
 
 ## 隔离级别的实现
 数据库对于隔离级别的实现就是使用并发控制机制对在同一时间执行的事务进行控制，
@@ -226,7 +226,7 @@ the commit operation of Ti appears before the commit operation of Tj .
 MySQL 和常见数据库中的锁都分为两种，共享锁（Shared）和互斥锁（Exclusive），
 前者也叫读锁，后者叫写锁。
 
-![](../images/mysql/transaction/2017-08-20-Shared-Exclusive-Lock.jpg)
+![](../../images/mysql/transaction/2017-08-20-Shared-Exclusive-Lock.jpg)
 
 读锁保证了读操作可以并发执行，相互不会影响，
 而写锁保证了在更新数据库数据时不会有其他的事务访问或者更改同一条记录造成不可预知的问题。
@@ -236,7 +236,7 @@ MySQL 和常见数据库中的锁都分为两种，共享锁（Shared）和互�
 例如 PostgreSQL 会为每一条记录保留两个字段；读时间戳中包括了所有访问该记录的事务中的最大时间戳，
 而记录行的写时间戳中保存了将记录改到当前值的事务的时间戳。
 
-![](../images/mysql/transaction/2017-08-20-Timestamps-Record.jpg)
+![](../../images/mysql/transaction/2017-08-20-Timestamps-Record.jpg)
 
 使用时间戳实现事务的隔离性时，往往都会使用乐观锁，先对数据进行修改，
 在写回时再去判断当前值，也就是时间戳是否改变过，如果没有改变过，就写入，
@@ -255,7 +255,7 @@ MySQL 就通过文章中提到的回滚日志实现了 MVCC，保证事务并行
 这时就会获取一个互斥锁，其他的事务就想要获得改行数据的读锁就必须等待写锁的释放，
 自然就不会发生级联回滚等问题了。
 
-![](../images/mysql/transaction/2017-08-20-Shared-Lock-and-Atomicity.jpg)
+![](../../images/mysql/transaction/2017-08-20-Shared-Lock-and-Atomicity.jpg)
 
 不过在大多数的数据库，比如 MySQL 中都使用了 MVCC 等特性，也就是正常的读方法是不需要获取锁的，
 在想要对读取的数据进行更新时需要使用 SELECT ... FOR UPDATE 尝试获取对应行的互斥锁，
@@ -265,7 +265,7 @@ MySQL 就通过文章中提到的回滚日志实现了 MVCC，保证事务并行
 作者认为数据库的一致性是一个非常让人迷惑的概念，
 原因是数据库领域其实包含两个一致性，一个是 ACID 中的一致性、另一个是 CAP 定义中的一致性。
 
-![](../images/mysql/transaction/2017-08-20-ACID-And-CAP.jpg)
+![](../../images/mysql/transaction/2017-08-20-ACID-And-CAP.jpg)
 
 这两个数据库的一致性说的完全不是一个事情，很多很多人都对这两者的概念有非常深的误解，
 当我们在讨论数据库的一致性时，一定要清楚上下文的语义是什么，
@@ -284,7 +284,7 @@ in isolation starting from a consistent database, the database must again be con
 
 我们可以将事务理解成一个函数，它接受一个外界的 SQL 输入和一个一致的数据库，它一定会返回一个一致的数据库。
 
-![](../images/mysql/transaction/2017-08-20-Transaction-Consistency.jpg)
+![](../../images/mysql/transaction/2017-08-20-Transaction-Consistency.jpg)
 
 而第二层意思其实是指逻辑上的对于开发者的要求，我们要在代码中写出正确的事务逻辑，
 比如银行转账，事务中的逻辑不可能只扣钱或者只加钱，这是应用层面上对于数据库一致性的要求。

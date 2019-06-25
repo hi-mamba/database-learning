@@ -32,14 +32,14 @@
 因此扁平事务是应用程序成为原子操作的基本组成模块。扁平事务一般有三种不同的结果： 
 
 1.事务成功完成。在平常应用中约占所有事务的96%。 
-![](../images/mysql/transaction/Flat_Transactions.jpg)
+![](../../images/mysql/transaction/Flat_Transactions.jpg)
 
 2.应用程序要求停止事务。比如应用程序在捕获到异常时会回滚事务，约占事务的3%。 
 
-![](../images/mysql/transaction/Flat_Transactions_2.jpg)
+![](../../images/mysql/transaction/Flat_Transactions_2.jpg)
 
 3.外界因素强制终止事务。如连接超时或连接断开，约占所有事务的1%。 
-![](../images/mysql/transaction/Flat_Transactions_3.jpg)
+![](../../images/mysql/transaction/Flat_Transactions_3.jpg)
 
 扁平事务的主要限制是不能提交或者回滚事务的某一部分。如果某一事务中有多个操作，
 在一个操作有异常时并不希望之的操作全部回滚，而是保存前面操作的更改。
@@ -51,7 +51,7 @@
 以便当之后发生错误时，事务能回到保存点当时的状态。
 
 对于扁平事务来说，在事务开始时隐式地设置了一个保存点，回滚时只能回滚到事务开始时的状态。下图是回滚到某个保存节点的实例： 
-![](../images/mysql/transaction/Flat_Transactions_with_Savepoints.jpg)
+![](../../images/mysql/transaction/Flat_Transactions_with_Savepoints.jpg)
 
 ### 链事务
 链事务（Chained Transaction）是指一个事务由多个子事务链式组成。
@@ -62,19 +62,19 @@
 而带保存节点的扁平事务能回滚到任意正确的保存点。但是，带有保存节点的扁平事务中的保存点是易失的，
 当发生系统崩溃是，所有的保存点都将消失，这意味着当进行恢复时，事务需要从开始处重新执行。
 
-![](../images/mysql/transaction/Chained_Transaction.jpg)
+![](../../images/mysql/transaction/Chained_Transaction.jpg)
 
 ### 嵌套事务
 嵌套事务（Nested Transaction）是一个层次结构框架。由一个顶层事务（top-level transaction）控制着各个层次的事务。
 顶层事务之下嵌套的事务成为子事务（subtransaction）,其控制着每一个局部的操作，子事务本身也可以是嵌套事务。
 因此，嵌套事务的层次结构可以看成是一颗树，其结构如下图所示。 
-![](../images/mysql/transaction/Nested_Transaction.jpg)
+![](../../images/mysql/transaction/Nested_Transaction.jpg)
 
 ### 分布式事务
 分布式事务（Distributed Transactions）通常是一个在分布式环境下运行的扁平事务，因此需要根据数据所在位置访问网络中不同节点的数据库资源。 
 例如一个银行用户从招商银行的账户向工商银行的账户转账1000元，这里需要用到分布式事务，因为不能仅调用某一家银行的数据库就完成任务。 
 
-![](../images/mysql/transaction/Distributed_Transactions.jpg)
+![](../../images/mysql/transaction/Distributed_Transactions.jpg)
 
 ## 事务的隔离级别
 SQL标准定义的四个隔离级别：
@@ -91,7 +91,7 @@ SQL标准定义的四个隔离级别：
 ### READ UNCOMMITTED
 读取未提交内容。在该隔离级别下，所有事务都可以看到其它未提交事务的执行结果。如下图所示： 
  
-![](../images/mysql/transaction/READ_UNCOMMITTED.jpg) 
+![](../../images/mysql/transaction/READ_UNCOMMITTED.jpg) 
 事务2查询到的数据是事务1中修改但未提交的数据，但因为事务1回滚了数据，
 所以事务2查询的数据是不正确的，因此出现了脏读的问题。
 
@@ -100,7 +100,7 @@ SQL标准定义的四个隔离级别：
 这样就解决在READ-UNCOMMITTED级别下的脏读问题。但如果一个事务在执行过程中，
 其它事务的提交对该事物中的数据发生改变，那么该事务中的一个查询语句在两次执行过程中会返回不一样的结果。
 如下图所示： 
-![](../images/mysql/transaction/READ_COMMITTED.jpg)
+![](../../images/mysql/transaction/READ_COMMITTED.jpg)
  
 事务2执行update语句但未提交前，事务1的前两个select操作返回结果是相同的。
 但事务2执行commit操作后，事务1的第三个select操作就读取到事务2对数据的改变，
@@ -114,13 +114,13 @@ MySQL的InnoDB存储引擎通过多版本并发控制（Multi_Version Concurrenc
 如果读取的数据行正在被其它事务执行DELETE或UPDATE操作（即该行上有排他锁），
 这时该事物的读取操作不会等待行上的锁释放，而是根据版本号去读取行的快照数据（记录在undo log中），
 这样，事务中的查询操作返回的都是同一版本下的数据，解决了不可重复读问题。其原理如下图所示： 
-![](../images/mysql/transaction/REPEATABLE_READ.jpg)
+![](../../images/mysql/transaction/REPEATABLE_READ.jpg)
 
 虽然该隔离级别下解决了不可重复读问题，但理论上会导致另一个问题：幻读（Phantom Read）。
 正如上面所讲，一个事务在执行过程中，另一个事物对已有数据行的更改，
 MVCC机制可保障该事物读取到的原有数据行的内容相同，但并不能阻止另一个事务插入新的数据行，
 这就会导致该事物中凭空多出数据行，像出现了幻读一样，这便是幻读问题。如下图所示： 
-![](../images/mysql/transaction/Phantom_Read.jpg)
+![](../../images/mysql/transaction/Phantom_Read.jpg)
 
 事务2对id=1的行内容进行了修改并且执行了commit操作，
 事务1中的第二个select操作在MVCC机制的作用下返回的仍是v=1的数据。
