@@ -46,7 +46,7 @@
 
 看一个例子：
 
-![](../images/index_1.png)
+![](../../images/index_1.png)
 
 图1
 
@@ -100,7 +100,7 @@ key和指针互相间隔，节点两端是指针。
 图2是一个d=2的B-Tree示意图。
 
 
-![](../images/index_2.png)
+![](../../images/index_2.png)
 
 图2
 
@@ -142,7 +142,7 @@ B-Tree有许多变种，其中最常见的是B+Tree，例如MySQL就普遍使用
 图3是一个简单的B+Tree示意。
 
 
-![](../images/mysql/B+Tree_3.png)
+![](../../images/mysql/B+Tree_3.png)
 图3
 
 由于并不是所有节点都具有相同的域，因此B+Tree中叶节点和内节点一般大小不同。
@@ -158,7 +158,7 @@ B-Tree有许多变种，其中最常见的是B+Tree，例如MySQL就普遍使用
 
 
 
-![](../images/mysql/B+Tree_4.png)
+![](../../images/mysql/B+Tree_4.png)
 图4
 
 如图4所示，在B+Tree的每个叶子节点增加一个指向相邻叶子节点的指针，
@@ -186,7 +186,7 @@ B-Tree有许多变种，其中最常见的是B+Tree，例如MySQL就普遍使用
 
 
 
-![](../images/mysql/ram.png)
+![](../../images/mysql/ram.png)
 图5
 
 从抽象角度看，主存是一系列的存储单元组成的矩阵，每个存储单元存储固定大小的数据。
@@ -211,7 +211,7 @@ B-Tree有许多变种，其中最常见的是B+Tree，例如MySQL就普遍使用
 图6是磁盘的整体结构示意图。
 
 
-![](../images/mysql/io_1.png)
+![](../../images/mysql/io_1.png)
 图6
 
 一个磁盘由大小相同且同轴的圆形盘片组成，磁盘可以转动（各个磁盘必须同步转动）。
@@ -223,7 +223,7 @@ B-Tree有许多变种，其中最常见的是B+Tree，例如MySQL就普遍使用
 
 
 
-![](../images/mysql/io_2.png)
+![](../../images/mysql/io_2.png)
 图7
 
 盘片被划分成一系列同心环，圆心是盘片中心，每个同心环叫做一个磁道，所有半径相同的磁道组成一个柱面。
@@ -287,14 +287,14 @@ floor表示向下取整。由于B+Tree内节点去掉了data域，因此可以�
 ### MyISAM索引实现
 MyISAM引擎使用B+Tree作为索引结构，叶节点的data域存放的是数据记录的地址。下图是MyISAM索引的原理图：
 
-![](../images/mysql/index_8.png)
+![](../../images/mysql/index_8.png)
 图8
 
 这里设表一共有三列，假设我们以Col1为主键，则图8是一个MyISAM表的主索引（Primary key）示意。
 可以看出MyISAM的索引文件仅仅保存数据记录的地址。在MyISAM中，主索引和辅助索引（Secondary key）在结构上没有任何区别，
 只是主索引要求key是唯一的，而辅助索引的key可以重复。如果我们在Col2上建立一个辅助索引，则此索引的结构如下图所示：
 
-![](../images/mysql/index_9.png)
+![](../../images/mysql/index_9.png)
 图9
 
 同样也是一颗B+Tree，data域保存数据记录的地址。因此，MyISAM中索引检索的算法为首先按照B+Tree搜索算法搜索索引，
@@ -311,7 +311,7 @@ MyISAM的索引方式也叫做“非聚集”的，之所以这么称呼是为�
 这个索引的key是数据表的主键，因此InnoDB表数据文件本身就是主索引。
 
 
-![](../images/mysql/innodb_index-10.png)
+![](../../images/mysql/innodb_index-10.png)
 图10
 
 图10是InnoDB主索引（同时也是数据文件）的示意图，可以看到叶节点包含了完整的数据记录。
@@ -324,7 +324,7 @@ MyISAM的索引方式也叫做“非聚集”的，之所以这么称呼是为�
 换句话说，InnoDB的所有辅助索引都引用主键作为data域。例如，图11为定义在Col3上的一个辅助索引：
 
 
-![](../images/mysql/innodb_index_11.png)
+![](../../images/mysql/innodb_index_11.png)
 图11
 
 这里以英文字符的ASCII码作为比较准则。聚集索引这种实现方式使得按主键的搜索十分高效，
@@ -337,7 +337,7 @@ MyISAM的索引方式也叫做“非聚集”的，之所以这么称呼是为�
 非单调的主键会造成在插入新记录时数据文件为了维持B+Tree的特性而频繁的分裂调整，
 十分低效，而使用自增字段作为主键则是一个很好的选择。
 
-下一章将具体讨论这些与索引有关的[优化策略](02、1.索引使用策略及优化.md)。
+下一章将具体讨论这些与索引有关的[优化策略](14、索引使用策略及优化.md)。
 
 ## 后记
 这篇文章断断续续写了半个月，主要内容就是上面这些了。不可否认，这篇文章在一定程度上有纸上谈兵之嫌，

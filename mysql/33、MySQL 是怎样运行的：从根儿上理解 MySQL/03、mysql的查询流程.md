@@ -3,7 +3,7 @@
 
 # mysql的查询流程
 
-![](../images/mysql/mysql_query_flow.jpg)
+![](../../images/mysql/mysql_query_flow.jpg)
 
 1、客户端先发送一条查询给服务器；
 

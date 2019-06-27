@@ -5,13 +5,13 @@
 
 ## 简单的 SQL 语句
 ```mysql
-select * from User where ID=10086；
+select * from User where ID=10086;
 ```
 上面是一条非常简单的 SQL 查询语句，咋一看是不是觉得很简单，但却不懂它内部的执行流程？
 
 根据自己的理解，我画了个不那么专业的执行流程图，先给出这条 SQL 语句的执行流程，再逐步解析每个流程，执行流程图如下：
 
-![](../images/mysql/mysql_query_flow.jpg)
+![](../../images/mysql/mysql_query_flow.jpg)
 
 你可以清晰地看到，MySQL 其实分为两层，server 层和存储引擎层。
 

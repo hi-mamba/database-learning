@@ -4,7 +4,7 @@
 
 # MySQL索引与Index Condition Pushdown
 
-大约在两年前，我写了[一篇关于MySQL索引的文章](01、MySQL索引背后的数据结构及算法原理.md)。
+大约在两年前，我写了[一篇关于MySQL索引的文章](31、MySQL索引背后的数据结构及算法原理.md)。
 最近有同学在文章的评论中对文章的内容提出质疑，质疑主要集中在联合索引的使用方式上。
 在那篇文章中，我说明联合索引是将各个索引字段做字符串连接后作为key，使用时将整体做前缀匹配。
 
@@ -178,13 +178,13 @@ ICP的原理简单说来就是将可以利用索引筛选的where条件在存储
 
 ### 关闭ICP
 
-![](../images/mysql/close_icp.png)
+![](../../images/mysql/close_icp.png)
 
 在不支持ICP的系统下，索引仅仅作为data access使用。
 
 ### 开启ICP
 
-![](../images/mysql/open_icp.png)
+![](../../images/mysql/open_icp.png)
 
 
 在ICP优化开启时，在存储引擎端首先用索引过滤可以过滤的where条件，然后再用索引做data access，

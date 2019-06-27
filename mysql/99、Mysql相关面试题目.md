@@ -1,6 +1,8 @@
 
 
-# 面试题SQL
+# Mysql相关面试题目
+
+
 
 ## 用一条sql语句查询出“每门”课程都大于80分的学生姓名
 
@@ -40,3 +42,13 @@ select name  from  student GROUP BY name  having min(score) >80;
 ```mysql
 select DISTINCT name from student where name not in  (select DISTINCT name from student where score< 80  )
 ```
+
+## N叉树”的N值在MySQL中是可以被人工调整的么？
+
+可以按照调整key的大小的思路来说；
+
+如果你能指出来 mysql5.6以后可以通过page大小来间接控制应该能加分吧
+
+面试回答不能太精减，计算方法、前缀索引什么的一起上
+
+
