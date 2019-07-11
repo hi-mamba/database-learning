@@ -285,10 +285,56 @@ alter table t add index city_user_age(city, name, age);
 
 
 
+## 思考题
+   
+假设你的表里面已经有了city_name(city, name)这个联合索引，
+然后你要查杭州和苏州两个城市中所有的市民的姓名，并且按名字排序，显示前100条记录。如果SQL查询语句是这么写的 ：
+```mysql
+mysql> select * from t where city in ('杭州',"苏州") order by name limit 100;
 
+```
+那么，这个语句执行的时候会有排序过程吗，为什么？
 
+如果业务端代码由你来开发，需要实现一个在数据库端不需要排序的方案，你会怎么实现呢？
 
+进一步地，如果有分页需求，要显示第101页，也就是说语句最后要改成 “limit 10000,100”， 你的实现方法又会是什么呢？
 
+### 答案
+虽然有(city,name)联合索引，对于单个city内部，name是递增的。但是由于这条SQL语句不是要单独地查一个city的值，
+而是同时查了"杭州"和" 苏州 "两个城市，因此所有满足条件的name就不是递增的了。也就是说，这条SQL语句需要排序。
+
+那怎么避免排序呢？
+
+这里，我们要用到(city,name)联合索引的特性，把这一条语句拆成两条语句，执行流程如下：
+
+执行select * from t where city=“杭州” order by name limit 100; 这个语句是不需要排序的，客户端用一个长度为100的内存数组A保存结果。
+
+执行select * from t where city=“苏州” order by name limit 100; 用相同的方法，假设结果被存进了内存数组B。
+
+现在A和B是两个有序数组，然后你可以用归并排序的思想，得到name最小的前100值，就是我们需要的结果了。
+
+如果把这条SQL语句里“limit 100”改成“limit 10000,100”的话，处理方式其实也差不多，即：要把上面的两条语句改成写：
+
+select * from t where city="杭州" order by name limit 10100; 
+和
+
+ select * from t where city="苏州" order by name limit 10100。
+ 
+这时候数据量较大，可以同时起两个连接一行行读结果，用归并排序算法拿到这两个结果集里，按顺序取第10001~10100的name值，就是需要的结果了。
+
+当然这个方案有一个明显的损失，就是从数据库返回给客户端的数据量变大了。
+
+所以，如果数据的单行比较大的话，可以考虑把这两条SQL语句改成下面这种写法：
+
+select id,name from t where city="杭州" order by name limit 10100; 
+
+和
+
+select id,name from t where city="苏州" order by name limit 10100。
+
+然后，再用归并排序的方法取得按name顺序第10001~10100的name、id的值，然后拿着这100个id到数据库中去查出所有记录。
+
+上面这些方法，需要你根据性能需求和开发的复杂度做出权衡。
 
 
 
