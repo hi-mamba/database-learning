@@ -150,7 +150,7 @@ Next-Key Locking锁机制将在后面的锁章节中讲到。
 但也会导致大量的超时和锁竞争现象，一般不推荐使用。
 
 
-## 
+## 总结
 
 隔离级别         |  脏读（Dirty Read）|  不可重复读（NonRepeatable Read）  |    幻读（Phantom Read）
 |---|---|---|--- 
