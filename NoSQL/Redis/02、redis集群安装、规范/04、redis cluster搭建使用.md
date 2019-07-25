@@ -31,6 +31,22 @@ tar xf redis-5.0.4.tar.gz
 cd redis-5.0.4
 make && make install
 ```
+
+#### [redis-server - Command Not Found](https://stackoverflow.com/questions/22362674/redis-server-command-not-found#_=_)
+加入系统环境
+
+```bash
+tar xvzf redis-stable.tar.gz
+cd redis-stable
+```
+make
+I added this line to my .bash_profile:
+```bash
+export PATH=$PATH:$HOME/Downloads/redis-stable/src
+```
+restarted the terminal. Now can run redis-server
+
+
 ## 3. 创建存放多个实例的目录
 
 ```bash
