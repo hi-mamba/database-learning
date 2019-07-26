@@ -109,6 +109,26 @@ appendonly yes
 
 修改完成后，把修改完成的redis.conf复制到7001-7005目录下，并且端口修改成和文件夹对应。
 
+
+###  设置远程Redis服务可以被访问
+
+> 修改Redis配置文件 redis.conf，找到bind那行配置
+
+去掉#注释并改为：
+```bash
+bind 0.0.0.0
+```
+
+指定配置文件然后重启Redis服务即可：
+```bash
+sudo redis-server /etc/redis/redis.conf
+```
+重启 redis 服务
+
+```bash
+sudo service redis-server restart
+```
+
 ## 5. 分别启动6个redis实例
 
 ```bash
