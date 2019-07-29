@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="space.pankui.mybatis.DemoMapper">
+
+    <select id="getDemoById" parameterType="int" resultType="space.pankui.mybatis.Demo">
+        SELECT * FROM demo  WHERE  id = #{id}
+    </select>
+
+    <select id="getDemoByStr" resultType="space.pankui.mybatis.Demo">
+        SELECT * FROM demo
+        <if test="str !=null">
+            where str = #{str}
+        </if>
+
+    </select>
+
+    <select id="getDemoByStrSId" resultType="space.pankui.mybatis.Demo">
+        SELECT * FROM demo where s_id = #{demo.sId} and str = #{str}
+    </select>
+</mapper>
