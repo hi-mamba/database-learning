@@ -32,6 +32,11 @@ MySQL 5.7 版本：
 ```mysql
 UPDATE mysql.user SET authentication_string=PASSWORD('123456') where USER='root';
 ```
+mysql 8.x.x 版本
+```mysql
+UPDATE user SET authentication_string='root' WHERE user='root';
+```
+
 ⑤ 刷新：
 ```mysql
 flush privileges;
