@@ -108,5 +108,11 @@ flush privileges ;
 
 ```
 
+## mysql 8.x.x 给用户 repl 赋予所有权限
+```mysql
+UPDATE `mysql`.`user` SET `Select_priv` = 'Y', `Insert_priv` = 'Y', `Update_priv` = 'Y', `Delete_priv` = 'Y', `Create_priv` = 'Y', `Drop_priv` = 'Y', `Reload_priv` = 'Y', `Shutdown_priv` = 'Y', `Process_priv` = 'Y', `File_priv` = 'Y', `Grant_priv` = 'Y', `References_priv` = 'Y', `Index_priv` = 'Y', `Alter_priv` = 'Y', `Show_db_priv` = 'Y', `Super_priv` = 'Y', `Create_tmp_table_priv` = 'Y', `Lock_tables_priv` = 'Y', `Execute_priv` = 'Y', `Repl_slave_priv` = 'Y', `Repl_client_priv` = 'Y', `Create_view_priv` = 'Y', `Show_view_priv` = 'Y', `Create_routine_priv` = 'Y', `Alter_routine_priv` = 'Y', `Create_user_priv` = 'Y', `Event_priv` = 'Y', `Trigger_priv` = 'Y', `Create_tablespace_priv` = 'Y', `ssl_type` = '', `ssl_cipher` = '', `x509_issuer` = '', `x509_subject` = '', `max_questions` = 0, `max_updates` = 0, `max_connections` = 0, `max_user_connections` = 0, `plugin` = 'mysql_native_password', `authentication_string` = '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', `password_expired` = 'N', `password_last_changed` = '2019-08-07 17:37:25', `password_lifetime` = NULL, `account_locked` = 'N', `Create_role_priv` = 'Y', `Drop_role_priv` = 'Y', `Password_reuse_history` = NULL, `Password_reuse_time` = NULL, `Password_require_current` = NULL, `User_attributes` = NULL WHERE   `User` =  'repl';
+```
+在mysql 8.x.x 执行上面的grant 都是不行，然后使用这个命令去执行，密码是123456
+
 
 
