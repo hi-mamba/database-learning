@@ -225,4 +225,38 @@ Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数�
 (6）value大小：redis最大可以达到1GB，而memcache只有1MB
 
 
-## 
+- [关于 Redis 疑难问题(面试相关)](https://mp.weixin.qq.com/s?__biz=MzU2NjIzNDk5NQ==&mid=2247487231&idx=1&sn=1385609d8b982eeaf07e16178f22aa62&chksm=fcaed4e3cbd95df548be0c819bacc69c33b11a100b0791460f8c33553546960283745e76545d&mpshare=1&scene=23&srcid=&sharer_sharetime=1565602361000&sharer_shareid=52b37ffc7da679567f80072e3210df76#rd)
+
+## Redis 持久化问题？
+   
+##   Redis 实际应用场景里怎么使用？
+
+##   1000 个线程压测时 Redis Incr 出现错误，就是 Timeout，怎么排查？有什么好的经验分享？
+
+##   批量查寻是用 MGET 好还是 Hash 更好，Hash 的性能瓶颈是多少，达到多少个 Key 或者多大容量后性能急剧下降？如果需要大批量的查例如 1000 个 Key，用什么方案更好？MGET 在集群模式下的实现方式是什么，怎么知道某个 Key 在哪个集群分片上？Redis 最大并发大约支持 5~10 万并发，假设现在有 20 万或者 50 万并发该怎么办？
+   
+##   Redis 分布式集群的几种解决方案，哨兵等方案结合生产环境经验的区别、优劣是什么？
+   
+##   jedispool 链接对象无法释放，这个怎么办？代码写了在 finally 里面也执行了，然后看客户端连接数越来越多，最后项目挂了怎么办？
+   
+##   Redis 和数据库同步、缓冲穿透、雪崩问题、hyperloglog slowqery 实现原理？
+   
+##   无论是 Win 或 Linux 都有此现象，服务器 Redis 3.x，客户端 Hiredis，在客户机与服务器间网络不稳定的情况下，客户机可能收不到服务器推送来的消息，以及客户机发布消息时会塞死。是否能提供相关解决经验？
+   
+##   Redis 的连接数用什么命令监测？
+   
+##   Redis 的配置要主要哪些参数调优？
+   
+##   登录 Redis 出现提示，要求密码 NOAUTH Authentication required 有什么办法可以免密登录？
+   
+##   有没有在生产环境下用 Redis 做持久化存储的例子？一般怎么配置 AOF 和 RDB？在高并发并且尽量少数据丢失的情况下有哪些优化手段？
+   
+##   哨兵模式下 Client 是随机挑选其中一个哨兵发送 Request 吗？那么如果这个哨兵 Process 挂了会怎样？
+
+##   Redis 集群很多个 Redis 的话，是把多个 IP 全部写到代码里面，那会不会导致压力不均衡？
+   
+##   要开始使用 Redis 的时候，如何预估生产环境需要多少计算资源（Cluster 机器数量、内存、CPU、硬盘空间、Slave 数量等）？有没有一些通用的经验？
+   
+##   AOF 和 RDB 配合着用，恢复数据哪个为主？
+   
+##   假如内存 8G 的话，Redis 既然是运行在内存中，那 Redis 最大能存多大数据？
