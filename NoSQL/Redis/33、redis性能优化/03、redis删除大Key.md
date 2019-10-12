@@ -31,7 +31,7 @@ RENAME userInfo:123 "deleteKey:userInfo:123"
 
 >这里可以搞个task去SCAN deleteKey:*，然后慢慢删除。
 
-## [UNLINK](../01、redis命令/30、UNLINK.md)
+## [UNLINK](../02、redis命令/30、UNLINK.md)
 
 Redis 4.0.0提供了一个更加方便的命令
 ```

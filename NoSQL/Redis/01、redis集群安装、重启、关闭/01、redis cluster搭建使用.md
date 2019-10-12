@@ -79,7 +79,8 @@ appendonly yes
 默认值为nodes.conf 。其他参数相信童鞋们都知道。节点配置文件无须人为修改， 它由 Redis 集群在启动时创建，
 并在有需要时自动进行更新。
 
-redis.conf 配置说明
+## redis.conf 配置说明
+
 ```xml
 #端口7000,7001,7002
 port 7000
@@ -167,7 +168,7 @@ $ redis ps -ef|grep redis
 > Redis5.0发布了，其中更新了一个新的特性，把Redis的集群管理从Ruby(redis-trib.rb)移植到了C语言代码，
 直接使用redis-cli就可以管理集群，可以不需要安装ruby了
 
->  redis5.x.x 好不需要安装这个了.
+>  redis5.x.x 后不需要安装这个了.
 
 安装 Ruby
 ```bash
