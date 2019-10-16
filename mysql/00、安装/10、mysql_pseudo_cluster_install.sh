@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# mysql_pseudo_cluster_install.sh
 if [ `whoami` == "root" ];then
     echo "root can not run this shell script,不能使用root来执行这个脚本！！"
     exit 1
@@ -35,7 +36,7 @@ echo '默认安装目录: ' "${MYSQL_PATH}"
 # 创建文件夹
 mkdir -vp "${MYSQL_PATH}"
 
-cd "${MYSQL_PATH}"
+cd ${MYSQL_PATH}
 
 # 安装新版mysql之前，我们需要将系统自带的mariadb-lib卸载
 rpm -qa|grep mariadb
@@ -46,33 +47,43 @@ rpm -e mariadb-libs-* --nodeps
 # tsinghua 清华镜像  https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/?C=S&O=A
 # 文件比较大，如果网速不好，下载比较慢
 
-wget https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz
+# wget 通配符
+# https://stackoverflow.com/questions/18107236/using-wildcards-in-wget-or-curl-query
+# wget www.download.example.com/dir/{version,old}/package{00..99}.rpm
+# 镜像 更新之后，下面的版本就不存在了，擦
+# wget https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz
+
+# 获取 第一个版本，因为有多个版本
+MYSQL_MIRROR="https://mirrors.tuna.tsinghua.edu.cn/mysql/downloads/MySQL-8.0/";
+
+# 过滤关键词和 获取href 里面的文件
+MYSQL_VERSION=`curl -L -s ${MYSQL_MIRROR} | grep -iF "linux-glibc2.12-x86_64.tar.xz" |sed -r 's/^.+href="([^"]+)".+$/\1/'  |head -1`
+
+wget ${MYSQL_MIRROR}/${MYSQL_VERSION}
 
 #  解压tar // 注意 tar -xvf xxx.tar 不需要 -zxvf 有参数z 可能有问题.
-tar tar -xvf mysql-8.0.15-linux-glibc2.12-x86_64.tar.xz
-
-MYSQL_INSTALL_VERSION=mysql-8.0.15-linux-glibc2.12-x86_64
+# 通配符，因为不知道版本
+tar -xvf mysql-8.*
 
 MYSQL_MASTER_3306=mysql_master_3306
-
-MYSQL_SLAVE_3307=mysql_slave_3307
-
 rm -rf ${MYSQL_MASTER_3306}
-rm -rf ${MYSQL_SLAVE_3307}
 
-mkdir ${MYSQL_MASTER_3306}  ${MYSQL_SLAVE_3307}
+# 重命名，过滤掉压缩包 且只需要指定的包
+mv `ls -1 |grep -v *.tar.xz |grep -v *.sh |grep glibc2.12-x86_64` ${MYSQL_MASTER_3306}
 
-cp -rf ${MYSQL_INSTALL_VERSION} ${MYSQL_MASTER_3306}
-
-mv ${MYSQL_INSTALL_VERSION} ${MYSQL_SLAVE_3307}
 
 cd ${MYSQL_PATH}/${MYSQL_MASTER_3306}
+mkdir data tmp log etc
 
-mkdir data
-mkdir tmp
-mkdir log
-mkdir etc
+cd ${MYSQL_PATH}
+MYSQL_SLAVE_3307=mysql_slave_3307
+rm -rf ${MYSQL_SLAVE_3307}
 
+# Linux中用mkdir同时创建多个文件夹
+mkdir ${MYSQL_SLAVE_3307}
+cp -rf ${MYSQL_MASTER_3306}/* ${MYSQL_SLAVE_3307}/
+
+# 配置文件
 MY_CNF="
 [client]
 socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR_DIR/tmp/mysql.sock
@@ -82,7 +93,7 @@ default-character-set=utf8
 basedir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/
 datadir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/data/
 socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
-port=3306
+port=
 user=mamba
 
 log_timestamps=SYSTEM
@@ -91,10 +102,11 @@ log-error=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/log/mysql.err
 default-character-set=utf8
 
 [mysqld]
+server-id=
 basedir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/
 datadir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/data/
 socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
-port=3306
+port=
 user=mamba
 log_timestamps=SYSTEM
 collation-server = utf8_unicode_ci
@@ -117,79 +129,50 @@ socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 "
 
+echo "$MY_CNF" > ${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
+echo "$MY_CNF" > ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
 
-echo "$ZK_CFG_CONTENT" > "cluster/$zookeeper_cluster_name"/conf/"$zookeeper_cluster_name".cfg
+
+# \n 换行
+sed -i "s?NEED_TO_BE_REPLACED_DIR?${MYSQL_MASTER_3306}?" ${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
+sed -i "s?port=?port=3306?" ${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
+sed -i "s?server-id=?server-id=1 \nlog-bin=master-bin \nlog-bin-index=master-bin.index?" ${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
+
+
+sed -i "s?NEED_TO_BE_REPLACED_DIR?${MYSQL_SLAVE_3307}?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
+sed -i "s?port=?port=3307?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
+sed -i "s?server-id=?server-id=2?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
 
 
 # 赋予账号 mamba权限
 chown -R mamba:mamba ${MYSQL_PATH}/${MYSQL_MASTER_3306}
+chown -R mamba:mamba ${MYSQL_PATH}/${MYSQL_SLAVE_3307}
 
 
-./bin/mysqld --initalize --user=mamba --basedir=${MYSQL_PATH}/${MYSQL_MASTER_3306} --data=${MYSQL_PATH}/${MYSQL_MASTER_3306}/data defaults-file=${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
+# 启动之前把 MYSQL 服务都KILL 掉
+PID=`ps -eaf | grep mysql | grep -v grep | grep -v mysql_pseudo_cluster_install.sh | awk '{print $2}'`
+if [[ "" !=  "$PID" ]]; then
+  echo "killing $PID"
+  kill -9 $PID
+fi
 
-## test local
+rm -rf ${MYSQL_PATH}/${MYSQL_MASTER_3306}/data
+rm -rf ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/data
 
-# 已经验证OK
-bin/mysqld  --defaults-file=/home/mamba/soft/mysql/mysql_master_3306/etc/my.cnf --initialize --user=mysql
-
-# 已经验证OK
-./bin/mysqld_safe --defaults-file=/usr/soft/mysql/mysql_master_3306/etc/my.cnf &
-
-###
-
-
-./bin/mysqld --user=mysql --basedir=/usr/soft/mysql/mysql_master_3306 --datadir=//usr/soft/mysql/mysql_master_3306/data --initialize --defaults-file=/usr/soft/mysql/mysql_master_3306/etc/my.cnf
-
-
-
-./bin/mysqld_safe --defaults-file=/usr/soft/mysql/mysql_master_3306/etc/my.cnf &
+# 初始化 注意 --defaults-file 必须放在mysqld 后面  且把输出日志放到文件里，为了过滤获取root的密码
+${MYSQL_PATH}/${MYSQL_MASTER_3306}/bin/mysqld  --defaults-file=${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf --user=mamba --initialize 2>&1 |tee ${MYSQL_PATH}/${MYSQL_MASTER_3306}/log/output.log
+# 过滤且获取密码所在的地方  https://stackoverflow.com/questions/418896/how-to-redirect-output-to-a-file-and-stdout
+MYSQL_MASTER_3306_PWD=`cat ${MYSQL_PATH}/${MYSQL_MASTER_3306}/log/output.log |grep  "password is generated for root@localhost"  |awk '{print $13}'`
+## 保存启动的文件，为了过滤获取初始化root 账号的密码。哈哈哈哈哈
+echo "######### ${MYSQL_MASTER_3306}自动生成密码:" ${MYSQL_MASTER_3306_PWD}
 
 
+${MYSQL_PATH}/${MYSQL_SLAVE_3307}/bin/mysqld  --defaults-file=${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf --user=mamba --initialize 2>&1 |tee ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/log/output.log
+MYSQL_SLAVE_3307_PWD=`cat ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/log/output.log |grep  "password is generated for root@localhost"  |awk '{print $13}'`
+echo "######### ${MYSQL_SLAVE_3307}自动生成密码:" ${MYSQL_SLAVE_3307_PWD}
 
-MYSQL_CLUSER_PREFIX_NAME="330"
+# 启动服务
 
-# 端口前缀
-PORT_PREFIX=700
+${MYSQL_PATH}/${MYSQL_MASTER_3306}/bin/mysqld_safe --defaults-file=${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf &
 
-LOCAL_IP=`ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1 -d '/'`
-
-echo "ip 地址：$LOCAL_IP"
-
-cd ${MYSQL_PATH}
-
-for cluster_i in $(seq 1 $cluster_num);
-do
-  echo "开始复制...$cluster_i"
-  # 集群名字
-  redis_cluster_name=${MYSQL_CLUSER_PREFIX_NAME}${cluster_i};
-
-  mkdir -vp ${MYSQL_PATH}/cluster/${redis_cluster_name}
-
-  redis_port=${PORT_PREFIX}${cluster_i};
-
-  rm -rf "$redis_cluster_name"
-  cp -rf redis-5.0.6/redis.conf  cluster/${redis_cluster_name}/
-
-  cd cluster/${redis_cluster_name}
-  pwd
-  # 替换的内容 sed -i "s#^filename=.*#filename=$user_device#" ./ebs_*.fio  redis.conf
-  # 自定义的分隔符 为 ?
-  # \n 是换行
-  sed -i "s?port 6379?port ${redis_port}?" redis.conf
-  sed -i "s?daemonize no?daemonize yes?" redis.conf
-  sed -i "s?# cluster-enabled yes?cluster-enabled yes?" redis.conf
-  sed -i "s?# cluster-config-file nodes-6379.conf?cluster-config-file nodes-${redis_port}.conf?" redis.conf
-  sed -i "s?# cluster-node-timeout 15000?cluster-node-timeout 5000?" redis.conf
-  sed -i "s?appendonly no?appendonly yes?" redis.conf
-  sed -i "s?pidfile /var/run/redis_6379.pid?pidfile /var/run/redis_${redis_port}.pid?" redis.conf
-  sed -i "s?# bind 127.0.0.1 ::1?bind 127.0.0.1?" redis.conf
-
-  pwd ${MYSQL_PATH}/cluster/${redis_cluster_name}
-  cd ${MYSQL_PATH}/cluster/${redis_cluster_name}
-  # 这里启动注意 路径
-  redis-server redis.conf
-  cd ${MYSQL_PATH}
-
-done
-
-
+${MYSQL_PATH}/${MYSQL_SLAVE_3307}/bin/mysqld_safe --defaults-file=${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf &

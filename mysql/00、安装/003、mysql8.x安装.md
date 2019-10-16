@@ -100,7 +100,7 @@ socket=/home/mamba/soft/mysql/mysql_master_3306/tmp/mysql.sock
 2019-10-16T03:08:16.306676+08:00 0 [System] [MY-013170] [Server] /home/mamba/soft/mysql/mysql_master_3306/bin/mysqld (mysqld 8.0.15) initializing of server has completed
 ```
 
-### 初始化数据库
+### 启动数据库
 
 ```shell script
 [mamba@localhost mysql_master_3306]$ ./bin/mysqld_safe --defaults-file=/home/mamba/soft/mysql/mysql_master_3306/etc/my.cnf &
