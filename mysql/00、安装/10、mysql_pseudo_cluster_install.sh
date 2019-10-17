@@ -1,6 +1,9 @@
 #!/bin/bash
 
 # mysql_pseudo_cluster_install.sh
+
+echo "####   这个脚本已经配置好配置文件 主从，但是没有配置数据库配置创建账号，设置主从  ###### "
+
 if [ `whoami` == "root" ];then
     echo "root can not run this shell script,不能使用root来执行这个脚本！！"
     exit 1
@@ -141,7 +144,10 @@ sed -i "s?server-id=?server-id=1 \nlog-bin=master-bin \nlog-bin-index=master-bin
 
 sed -i "s?NEED_TO_BE_REPLACED_DIR?${MYSQL_SLAVE_3307}?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
 sed -i "s?port=?port=3307?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
-sed -i "s?server-id=?server-id=2?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
+sed -i "s?server-id=?server-id=2 \nrelay-log=slave-relay-log \nrelay-log-index=slave-relay-bin.index?"  ${MYSQL_PATH}/${MYSQL_SLAVE_3307}/etc/my.cnf
+
+
+
 
 
 # 赋予账号 mamba权限
