@@ -2,6 +2,8 @@
 
 # mysql8.x安装遇到的坑
 
+> linux 和 mac 都可以使用这个方法来安装，注意对应的
+
 ## mysql8.x 二进制方式安装
 
 > 注意不要使用root 账号来操作！！
@@ -99,6 +101,9 @@ socket=/home/mamba/soft/mysql/mysql_master_3306/tmp/mysql.sock
 2019-10-16T03:08:14.672768+08:00 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: 4FwhxrZgcN?T
 2019-10-16T03:08:16.306676+08:00 0 [System] [MY-013170] [Server] /home/mamba/soft/mysql/mysql_master_3306/bin/mysqld (mysqld 8.0.15) initializing of server has completed
 ```
+
+> 如果初始化错误，可能你的 data 目录下有文件，需要清空。
+> ⚠️ 注意：如果之前你初始化过，不要清空，否则你数据都不在
 
 ### 启动数据库
 
