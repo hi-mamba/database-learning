@@ -2,7 +2,7 @@
 
 # mysql_pseudo_cluster_install.sh
 
-echo "####   这个脚本已经配置好配置文件 主从，但是没有配置数据库配置创建账号，设置主从  ###### "
+echo "####   这个脚本已经配置好配置文件 主从，但是没有配置数据库配置创建账号，设置主从 需要手动去配置 ###### "
 
 if [ `whoami` == "root" ];then
     echo "root can not run this shell script,不能使用root来执行这个脚本！！"
@@ -89,26 +89,26 @@ cp -rf ${MYSQL_MASTER_3306}/* ${MYSQL_SLAVE_3307}/
 # 配置文件
 MY_CNF="
 [client]
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR_DIR/tmp/mysql.sock
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR_DIR/tmp/mysql.sock
 default-character-set=utf8
 
 [mysql]
-basedir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/
-datadir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/data/
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
+basedir=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/
+datadir=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/data/
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 port=
 user=mamba
 
 log_timestamps=SYSTEM
-log-error=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/log/mysql.err
+log-error=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/log/mysql.err
 
 default-character-set=utf8
 
 [mysqld]
 server-id=
-basedir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/
-datadir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/data/
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
+basedir=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/
+datadir=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/data/
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 port=
 user=mamba
 log_timestamps=SYSTEM
@@ -116,20 +116,20 @@ collation-server = utf8_unicode_ci
 character-set-server = utf8
 
 default_authentication_plugin= mysql_native_password
-language=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/share/english
+language=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/share/english
 
 
 [mysqld_safe]
-log-error=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/log/mysqld_safe.err
-pid-file=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysqld.pid
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
+log-error=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/log/mysqld_safe.err
+pid-file=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysqld.pid
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 
 [mysql.server]
-basedir=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
+basedir=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 
 [mysqladmin]
-socket=/home/mamba/soft/mysql/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
+socket=${MYSQL_PATH}/NEED_TO_BE_REPLACED_DIR/tmp/mysql.sock
 "
 
 echo "$MY_CNF" > ${MYSQL_PATH}/${MYSQL_MASTER_3306}/etc/my.cnf
