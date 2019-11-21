@@ -44,7 +44,7 @@ vim etc/my.cnf
 ```shell script
 [client]
 socket=/home/mamba/soft/mysql/mysql_master_3306//tmp/mysql.sock
-default-character-set=utf8
+
 
 [mysql]
 basedir=/home/mamba/soft/mysql/mysql_master_3306/
@@ -56,7 +56,6 @@ user=mamba
 log_timestamps=SYSTEM
 log-error=/home/mamba/soft/mysql/mysql_master_3306/log/mysql.err
 
-default-character-set=utf8
 
 [mysqld]
 basedir=/home/mamba/soft/mysql/mysql_master_3306/
@@ -65,8 +64,6 @@ socket=/home/mamba/soft/mysql/mysql_master_3306/tmp/mysql.sock
 port=3306
 user=mamba
 log_timestamps=SYSTEM
-collation-server = utf8_unicode_ci
-character-set-server = utf8
 
 default_authentication_plugin= mysql_native_password
 language=/home/mamba/soft/mysql/mysql_master_3306/share/english
