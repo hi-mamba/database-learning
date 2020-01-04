@@ -1,5 +1,12 @@
 ## [How to reset the root password in MySQL 8.0.11?](https://stackoverflow.com/a/52579886/4712855)
 
+
+# [mysql8 之后首次登录之后操作需要重置密码](https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html)
+
+> You must reset your password using ALTER USER statement before executing this statement
+
+> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root123';
+
 # 04、mysql8.x.x重置root密码
 
 > 注意这里是非 skip-grant-tables 模式下，如果是 skip-grant-tables模式，请先修改root密码为空
