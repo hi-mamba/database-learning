@@ -1,6 +1,6 @@
 
 
-## [原文](coolshell.cn/articles/1846.html)
+## [原文](http://coolshell.cn/articles/1846.html)
 
 # MYSQL性能优化的最佳20+条经验
 
