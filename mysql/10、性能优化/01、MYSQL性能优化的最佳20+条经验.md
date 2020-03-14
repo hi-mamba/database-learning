@@ -28,3 +28,45 @@ $r = mysql_query("SELECT username FROM user WHERE signup_date >= '$today'");
 所以，你所需要的就是用一个变量来代替MySQL的函数，从而开启缓存。
 
 
+## 2. EXPLAIN 你的 SELECT 查询
+
+## 3. 当只要一行数据时使用 LIMIT 1
+
+## 4. 为搜索字段建索引
+
+## 5. 在Join表的时候使用相当类型的例，并将其索引
+
+## 6. 千万不要 ORDER BY RAND()
+
+## 7. 避免 SELECT *
+
+## 8. 永远为每张表设置一个ID
+
+## 9. 使用 ENUM 而不是 VARCHAR
+
+## 10. 从 PROCEDURE ANALYSE() 取得建议
+
+## 11. 尽可能的使用 NOT NULL
+
+## 12. Prepared Statements
+
+## 13. 无缓冲的查询
+
+## 14. 把IP地址存成 UNSIGNED INT
+
+
+## 15. 固定长度的表会更快
+
+
+## 16. 垂直分割
+
+## 17. 拆分大的 DELETE 或 INSERT 语句
+
+## 18. 越小的列会越快
+
+## 19. 选择正确的存储引擎
+
+## 20. 使用一个对象关系映射器（Object Relational Mapper）
+
+## 21. 小心“永久链接”
+
