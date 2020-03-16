@@ -27,11 +27,11 @@ Sentinel集群的每一个Sentinel节点会定时对redis集群的所有节点�
 当节点被一个Sentinel节点记为主观下线时，并不意味着该节点肯定故障了，
 还需要Sentinel集群的其他Sentinel节点共同判断为主观下线才行。  
 
-该Sentinel节点会询问其他Sentinel节点，如果Sentinel集群中超过quorum数量的Sentinel节点认为该redis节点主观下线，
+该Sentinel节点会询问其他Sentinel节点，如果Sentinel集群中`超过quorum数量`的Sentinel节点认为该redis节点主观下线，
 则该redis客观下线。
 
 如果客观下线的redis节点是从节点或者是Sentinel节点，则操作到此为止，没有后续的操作了；
-如果客观下线的redis节点为主节点，则开始故障转移，从从节点中选举一个节点升级为主节点
+如果客观下线的redis节点为主节点，则`开始故障转移`，从从节点中选举一个节点升级为主节点
 
  
 ### 领头哨兵的选举(Sentinel集群选举Leader)
@@ -45,13 +45,13 @@ Sentinel集群的每一个Sentinel节点会定时对redis集群的所有节点�
 
 sentinel is-master-down-by-addr 这个命令有两个作用，一是确认下线判定，二是进行领导者选举。
 
-1. 每个做主观下线的sentinel节点向其他sentinel节点发送上面那条命令，要求将它设置为领导者。
+1. 每个`做主观下线`的sentinel节点向其他sentinel节点发送上面那条命令，要求将它设置为领导者。
 
 2. 收到命令的sentinel节点如果还没有同意过其他的sentinel发送的命令（还未投过票），那么就会同意，否则拒绝。
 
-3. 如果该sentinel节点发现自己的票数已经过半且达到了quorum的值，就会成为领导者
+3. 如果该sentinel节点发现自己的票数已经过半且达到了`quorum的值`，就会成为领导者
 
-4. 如果这个过程出现多个sentinel成为领导者，则会等待一段时间重新选举。
+4. 如果这个过程`出现多个sentinel成为领导者`，则会`等待一段时间`重新选举。
 
 ### redis sentinel模式下，如何选举新的master
 
@@ -96,5 +96,7 @@ Sentinel节点数/2 + 1
 当已下线的服务重新上线时，sentinel会向其发送 slaveof 命令，让其成为新主节点的从节点
 
 ## Sentinel与redis实例之间的通信
+
+<https://minichou.github.io/2016/03/25/Redis%20Sentinel%E5%8E%9F%E7%90%86/>
 
 ## 同步原理（复制原理）
