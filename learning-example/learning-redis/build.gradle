@@ -1,4 +1,12 @@
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.1.3.RELEASE'
+
+    // 查看源码添加的
+    compile group: 'redis.clients', name: 'jedis', version: '3.2.0'
+    compile group: 'io.lettuce', name: 'lettuce-core', version: '5.2.2.RELEASE'
+
+
+
 }
