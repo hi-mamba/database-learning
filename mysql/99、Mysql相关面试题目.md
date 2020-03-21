@@ -33,7 +33,7 @@ insert into student values('小小','语文','110','A','C','C');
 ```
 
 - 答案一
-
+> 答案一有问题，因为 group by 不稳定
 ```mysql
 select name  from  student GROUP BY name  having min(score) >80;
 ```
