@@ -144,7 +144,7 @@ set 不是自动有序的，而** sorted set 可以通过用户额外提供一�
 
 - 实现方式
 
-内部使用 HashMap 和跳跃表（SkipList）来保证数据的存储和有序
+内部使用 `HashMap` 和`跳跃表`（SkipList）来保证数据的存储和有序
 
 Sorted Set的实现是HashMap(element->score, 用于实现ZScore及判断element是否在集合内)，
 和SkipList(score->element,按score排序)的混合体。

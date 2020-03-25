@@ -2,6 +2,11 @@
 
 # Redis数据过期策略详解
 
+- 定时删除
+- 惰性删除
+- 定期删除
+
+
 本文对Redis的过期机制简单的讲解一下    
 　　讲解之前我们先抛出一个问题，我们知道很多时候服务器经常会用到redis作为缓存，有很多数据都是临时缓存一下，
 可能用过之后很久都不会再用到了（比如暂存session，又或者只存放日行情股票数据）那么就会出现一下几个问题了
@@ -140,7 +145,7 @@ redis 127.0.0.1:6379> SETEX KEY_NAME TIMEOUT VALUE
 
 ### 惰性删除
 
-- 含义：key过期的时候不删除，每次从数据库获取key的时候去检查是否过期，若过期，则删除，返回null。
+- 含义：`key过期的时候不删除`，每次从数据库获取key的时候去检查是否过期，若过期，则删除，返回null。
 
 - 优点：删除操作只发生在从数据库取出key的时候发生，而且只删除当前key，所以对CPU时间的占用是比较少的，
 而且此时的删除是已经到了非做不可的地步（如果此时还不删除的话，我们就会获取到了已经过期的key了）
@@ -149,7 +154,7 @@ redis 127.0.0.1:6379> SETEX KEY_NAME TIMEOUT VALUE
 
 ### 定期删除
 
-- 含义：每隔一段时间执行一次删除(在redis.conf配置文件设置hz，1s刷新的频率)过期key操作
+- 含义：`每隔一段时间执行一次删除`(在redis.conf配置文件设置hz，1s刷新的频率)过期key操作
 
 - 优点：
   - 通过限制删除操作的时长和频率，来减少删除操作对CPU时间的占用--处理"定时删除"的缺点
@@ -201,8 +206,8 @@ databases 16
 ### 惰性删除+定期删除
 
 - 惰性删除流程
-  - 在进行get或setnx等操作时，先检查key是否过期，
-  - 若过期，删除key，然后执行相应操作；
+  - 在进行`get或setnx`等操作时，先`检查key`是否过期，
+  - 若过期，`删除key`，然后执行相应操作；
   - 若没过期，直接执行相应操作
 
 - 定期删除流程（简单而言，对指定个数个库的每一个库随机删除小于等于指定个数个过期key）
@@ -248,48 +253,15 @@ int keyIsExpired(redisDb *db, robj *key) {
     /* Don't expire anything while loading. It will be done later. */
     if (server.loading) return 0;
 
-    /* If we are in the context of a Lua script, we pretend that time is
-     * blocked to when the Lua script started. This way a key can expire
-     * only the first time it is accessed and not in the middle of the
-     * script execution, making propagation to slaves / AOF consistent.
-     * See issue #1525 on Github for more information. */
     mstime_t now = server.lua_caller ? server.lua_time_start : mstime();
 
     return now > when;
 }
 
-/* This function is called when we are going to perform some operation
- * in a given key, but such key may be already logically expired even if
- * it still exists in the database. The main way this function is called
- * is via lookupKey*() family of functions.
- *
- * The behavior of the function depends on the replication role of the
- * instance, because slave instances do not expire keys, they wait
- * for DELs from the master for consistency matters. However even
- * slaves will try to have a coherent return value for the function,
- * so that read commands executed in the slave side will be able to
- * behave like if the key is expired even if still present (because the
- * master has yet to propagate the DEL).
- *
- * In masters as a side effect of finding a key which is expired, such
- * key will be evicted from the database. Also this may trigger the
- * propagation of a DEL/UNLINK command in AOF / replication stream.
- *
- * The return value of the function is 0 if the key is still valid,
- * otherwise the function returns 1 if the key is expired. */
  
 int expireIfNeeded(redisDb *db, robj *key) {
     /*如果没有过期，就返回当前键*/
     if (!keyIsExpired(db,key)) return 0;
-
-    /* If we are running in the context of a slave, instead of
-     * evicting the expired key from the database, we return ASAP:
-     * the slave key expiration is controlled by the master that will
-     * send us synthesized DEL operations for expired keys.
-     *
-     * Still we try to return the right information to the caller,
-     * that is, 0 if we think the key should be still valid, 1 if
-     * we think the key is expired at this time. */
      
      /*如果我们正在slaves上执行读写命令，就直接返回，
           *因为slaves上的过期是由master来发送删除命令同步给slaves删除的，

@@ -37,8 +37,18 @@ delete from table_name;
 或者
 truncate table table_name
 ```
+## 自增字值保存在哪里
 
+不同的表引擎对于auto_incrment处理是不同的
+
+- MyIsam表是保存在`数据结构`中（保存在文件里）
+- Innodb表是保存在`内存`中的
+  - 5.7以及之前的版本是保存在`内存`中，每次数据库启动时候会查找表的`max(id)`，然后+1。
+  如果这时候有auto_incrment=11,id=10,如果这条id=10的数据被删除后从起mysql，Auto_incrment的值又变成10
+  - 在Mysql 8.0中auto_incrment的值保存在`redolog`中，依靠redolog来恢复
+ 
 ## 原理
+
 
 ### 传统auto_increment原理
 
@@ -76,6 +86,9 @@ INNODB都会加上一个名为`AUTO-INC锁`直到该语句结束(注意锁只持
 
 ### 改进后
 
+> innodb_autoinc_lock_mode=1: bulk inserts采用`AUTO-INC锁`这种方式，simple inserts，采用了一种新的`轻量级的互斥锁
+> innodb_autoinc_lock_mode=2：则模式下任何类型都不会采用锁
+
 鉴于传统auto_increment机制要加AUTO-INC这种`特殊的表级锁`,`性能还是太差`,于是在mysql5.1开始,
 `新增`加了一个配置项`innodb_autoinc_lock_mode`来设定auto_increment方式,可以设置的值为0,1,2，
 其中0`就是第一节中描述的传统auto_increment机制`,而1和2则是`新增加的模式`,`默认该值`为1,
@@ -92,19 +105,21 @@ bulk inserts指的是事先`无法确定插入行`数的语句，比如INSERT/RE
 
 - 3）mixed-mode inserts
 
-指的是simple inserts类型中有些行指定了auto_increment列的值`有些没有指定`，比如：
+指的是simple inserts类型中有些行指定了auto_increment列的值`有些没有指定`(会分配过多的id，而导致“浪费)，比如：
 > INSERT INTO t1 (c1,c2) VALUES (1,'a'), (NULL,'b'), (5,'c'), (NULL,'d');
 
 另外一种mixed-mode inserts是 INSERT ... ON DUPLICATE KEY UPDATE这种语句，可能导致分配的auto_increment值没有被使用。
+(会分配过多的id，而导致“浪费)
+
 
 #### 下面看看设置innodb_autoinc_lock_mode为不同值时的情况：
 
-- innodb_autoinc_lock_mode=0（traditional lock mode）
+- innodb_autoinc_lock_mode=0（traditional lock mode `传统模式` ）
 
 传统的auto_increment机制，这种模式下所有针对auto_increment列的插入操作都会加`AUTO-INC锁`，
 分配的值也是一个个分配，是连续的，正常情况下也不会有空洞（当然如果`事务rollback了这个auto_increment值就会浪费掉`，从而造成空洞）。
 
-- innodb_autoinc_lock_mode=1（consecutive lock mode）
+- innodb_autoinc_lock_mode=1（consecutive lock mode `连续模式` ）
 
 这种情况下，针对bulk inserts才会采用`AUTO-INC锁`这种方式，而针对simple inserts，
 则采用了一种新的`轻量级的互斥锁`来分配auto_increment列的值。当然，如果其`他事务已经持有了AUTO-INC锁`，则`simple inserts需要等待`.
@@ -112,7 +127,7 @@ bulk inserts指的是事先`无法确定插入行`数的语句，比如INSERT/RE
 需要注意的是，在innodb_autoinc_lock_mode=1时，语句之间是可能出现`auto_increment值的间隔`的。
 比如`mixed-mode inserts`以及`bulk inserts`中都有可能导致一些分配的auto_increment值被浪费掉从而导致空洞。后面会有例子。
 
-- innodb_autoinc_lock_mode=2（interleaved lock mode）
+- innodb_autoinc_lock_mode=2（interleaved lock mode `交叉模式` ）
 
 这种模式下任何类型的inserts都不会采用AUTO-INC锁，性能最好，但是在`同一条语句内部产生auto_increment值空洞`。
 此外，这种模式对`statement-based replication也不安全`。
@@ -144,4 +159,8 @@ bulk inserts指的是事先`无法确定插入行`数的语句，比如INSERT/RE
 
 
 
- 
+## 例子省略
+
+
+
+   
