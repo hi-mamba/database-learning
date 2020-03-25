@@ -96,8 +96,9 @@ MySQL一次查询只能使用一个索引，如果要对多个字段使用索引
 #### 1. 查询的字段，应该只包含此次查询使用的`索引字段和主键`，其余的`非索引字段`和索引字段作为查询字段则`不会使用索引`。
 
 - 查询用于排序的索引字段，可以利用索引排序 或者 查询用于`排序的索引字段和主键`，可以利用索引排序：
+> 注意⚠️ 这，是select 这里查询字段先使用到索引
 ```mysql
-mysql> explain select a,b,id from t  order by a ,b;
+mysql> explain select a,b,id from t order by a ,b;
 +----+-------------+-------+------------+-------+---------------+------+---------+------+------+----------+-------------+
 | id | select_type | table | partitions | type  | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
 +----+-------------+-------+------------+-------+---------------+------+---------+------+------+----------+-------------+
@@ -225,5 +226,11 @@ mysql> explain select *  from t where b = 1 order by b;
 
 - 在ORDER BY操作中，MySQL只有在排序条件不是一个查询条件表达式的情况下才使用索引。
  
+### Filesort优化
+
+适当加大系统变量`max_length_for_sort_data`的值，能够让MySQL选择更优化的Filesort排序算法。
+并且在书写SQL语句时，只使用`需要的字段`，而不是`SELECT * `所有的字段，这样可以`减少排序区的使用`，提高SQL性能。
+
+
 
  
