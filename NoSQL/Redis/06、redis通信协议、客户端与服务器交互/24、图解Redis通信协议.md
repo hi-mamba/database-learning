@@ -2,7 +2,7 @@
 
 # [图解Redis通信协议](https://www.jianshu.com/p/f670dfc9409b)
 
-Redis客户端和服务端之间使用一种名为RESP(Redis Serialization Protocol)的二进制安全文本协议进行通信。
+Redis客户端和服务端之间使用一种名为`RESP(Redis Serialization Protocol)`的`二进制安全文本协议进行通信`。
 RESP设计的十分精巧，下面是一张完备的协议描述图：
 
 
@@ -34,5 +34,3 @@ redis> SET mykey "Hello"
 [1] [通信协议(protocol)](http://redisdoc.com/topic/protocol.html)
 
 [2] [Redis Protocol specification](https://redis.io/topics/protocol)
-
- 

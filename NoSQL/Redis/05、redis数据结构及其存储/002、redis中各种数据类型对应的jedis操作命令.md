@@ -4,7 +4,7 @@
 
 ## 一、常用数据类型简介：
 
-      redis常用五种数据类型:string,hash,list,set,zset(sorted set).
+redis常用五种数据类型:`string,hash,list,set,zset(sorted set)`.
 
 ### 1. String类型
 ```
