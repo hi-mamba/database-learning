@@ -95,17 +95,6 @@ Redis可以使用主从同步，从从同步。第一次同步时，主节点做
 Redis Sentinal着眼于高可用，在master宕机时会自动将slave提升为master，继续提供服务。
 
 Redis Cluster着眼于扩展性，在单个redis内存不足时，使用Cluster进行分片存储。
-
-## 如何保证 Redis中数据都是热点数据
-相关知识：redis内存数据集大小上升到一定大小的时候，就会施行数据淘汰策略。
-redis提供6种数据淘汰策略：
-1、voltile-lru：从已设置过期时间的数据集（service.db[i].expires）中挑选最近最少使用的数据淘汰。
-2、volatile-ttl：从已设置过期时间的数据集（service.db[i].expires）中挑选将要过期 数据淘汰。
-3、volatile-random：从已设置过期时间的数据集（service.db[i].expires）中任意选择数据淘汰。
-4、allkeys-lru：从数据集（service.db[i].dict）中挑选最少使用的数据淘汰。
-5、allkeys-random：从数据集（service.db[i].dict）中任意选择数据淘汰。
-6、no-enviction（驱逐）：禁止驱逐数据
-
  
  
 ## 1、什么是Redis？
