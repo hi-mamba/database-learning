@@ -1,6 +1,17 @@
-## [原文](https://redisbook.readthedocs.io/en/latest/feature/transaction.html)
+
+##### [原文](https://redisbook.readthedocs.io/en/latest/feature/transaction.html)
 
 # redis 事务的实现
+
+## 总流程
+事务从开始到执行需要经历以下三个阶段：
+
+- 声明事务 （multi命令）
+- 命令入队
+- 执行事务（exec命令
+
+> watch 是使用监视某个key,如果做修改。那么执行失败【直接返回失败】，查看下面的例子说明
+
 
 Redis 通过 MULTI 、 DISCARD 、 EXEC 和 WATCH 四个命令来实现事务功能， 
 本章首先讨论使用 MULTI 、 DISCARD 和 EXEC 三个命令实现的一般事务， 然后再来讨论带有 WATCH 的事务的实现。
