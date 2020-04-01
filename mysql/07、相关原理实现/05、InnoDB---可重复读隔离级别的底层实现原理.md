@@ -1,4 +1,5 @@
-## [原文](https://blog.csdn.net/chuixue24/article/details/86536372)
+
+##### [原文](https://blog.csdn.net/chuixue24/article/details/86536372)
 
 # InnoDB---可重复读隔离级别的底层实现原理
 
@@ -7,7 +8,7 @@
 在InnoDB中，会在每行数据后添加`两个额外`的`隐藏的值`来实现MVCC，这两个值一个记录这行数据何时被创建，另外一个记录这行数据何时过期（或者被删除）。 
 在实际操作中，存储的并不是时间，而是事务的版本号，每开启一个新事务，事务的版本号就会递增。 
 
-在可重读Repeatable reads事务隔离级别下：
+### 在可重读Repeatable reads事务隔离级别下：
 ```
 SELECT时，读取创建版本号<=当前事务版本号，删除版本号为空或 > 当前事务版本号。
 INSERT时，保存当前事务版本号为行的创建版本号
