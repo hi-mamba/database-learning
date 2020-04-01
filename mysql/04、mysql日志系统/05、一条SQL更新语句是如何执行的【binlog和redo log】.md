@@ -1,6 +1,7 @@
-## [讲日志系统：一条SQL更新语句是如何执行的](https://time.geekbang.org/column/article/68633?utm_source=website&utm_medium=infoq&utm_campaign=139-presell)
 
-# 讲日志系统：一条SQL更新语句是如何执行的 
+##### [讲日志系统：一条SQL更新语句是如何执行的](https://time.geekbang.org/column/article/68633?utm_source=website&utm_medium=infoq&utm_campaign=139-presell)
+
+# 一条SQL更新语句是如何执行的 
 
 > `redo log`是InnoDB引擎特有的日志，Server层也有自己的日志，称为`binlog`（归档日志）
 
@@ -116,10 +117,9 @@ binlog日志只能用于归档。而InnoDB是另一个公司以插件形式引�
  
 - 执行器调用引擎的`提交事务接口`，引擎把刚刚写入的redo log改成`提交（commit）状态`，更新完成。
 
-这里我给出这个update语句的执行流程图，图中浅色框表示是在InnoDB内部执行的，深色框表示是在执行器中执行的。
+这里我给出这个`update语句的执行流程图`，图中`浅色框`表示是在`InnoDB`内部执行的，`深色框`表示是在`执行器`中执行的。
 
-![](../../images/mysql/log/redo_log.png)
-update语句执行流程
+![](../../images/mysql/log/update_log.png)
 
 你可能注意到了，最后三步看上去有点“绕”，将redo log的写入拆成了两个步骤：`prepare和commit`，这就是"`两阶段提交`"。
 
