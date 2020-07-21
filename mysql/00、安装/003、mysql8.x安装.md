@@ -30,6 +30,11 @@ cd mysql_master_3306
 
 ```
 
+### brew 安装mysql
+前提是你已经安装了brew
+
+> brew install mysql
+
 ### 自定义 my.cnf 配置及其 日志、数据文件目录
 ```shell script
 mkdir data
