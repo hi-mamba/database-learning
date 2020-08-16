@@ -167,4 +167,6 @@ WINDOW w AS (ORDER BY `score` desc);
 用SQL实现此类业务需求还是需要慢慢积累的。
 
 
+[Mysql将查询后的数据进行排名的SQL语句](https://blog.csdn.net/wojiaowo11111/article/details/53350470)
+
 
