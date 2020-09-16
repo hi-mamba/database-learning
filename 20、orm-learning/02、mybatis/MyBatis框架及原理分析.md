@@ -32,7 +32,7 @@ MyBatis框架和其他绝大部分框架一样，需要一个配置文件，其�
 
     <!-- 类型别名 -->
     <typeAliases>
-        <typeAlias alias="userInfo" type="space.pankui.mybatis.Demo"/>
+        <typeAlias alias="userInfo" type="space.mamba.mybatis.Demo"/>
     </typeAliases>
 
     <!--环境-->

@@ -1,9 +1,9 @@
-package space.pankui.mybatis;
+package space.mamba.mybatis;
 
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @author pankui
+ * @author mamba
  * @date 21/06/2018
  * <pre>
  *

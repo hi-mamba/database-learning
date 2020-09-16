@@ -1,4 +1,4 @@
-package space.pankui;
+package space.mamba;
 
 import java.sql.Connection;
 import java.sql.Driver;
@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 /**
- * @author pankui
+ * @author mamba
  * @date 12/05/2018
  * <pre>
  *

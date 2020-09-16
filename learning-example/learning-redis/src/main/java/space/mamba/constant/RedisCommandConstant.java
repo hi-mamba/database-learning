@@ -1,4 +1,4 @@
-package space.pankui.constant;
+package space.mamba.constant;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;

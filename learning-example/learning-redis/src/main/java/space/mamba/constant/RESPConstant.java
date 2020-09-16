@@ -1,4 +1,4 @@
-package space.pankui.constant;
+package space.mamba.constant;
 
 /**
  * @author pankui

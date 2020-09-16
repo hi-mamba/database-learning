@@ -1,4 +1,4 @@
-package space.pankui.mybatis;
+package space.mamba.mybatis;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author pankui
+ * @author mamba
  * @date 21/06/2018
  * <pre>
  *
@@ -49,7 +49,7 @@ public class MybatisDemo0001 {
             paramMap.put("id", 1);
 
 
-            Demo demo = sqlSession.selectOne("space.pankui.mybatis.DemoMapper.getDemoById", paramMap);
+            Demo demo = sqlSession.selectOne("space.mamba.mybatis.DemoMapper.getDemoById", paramMap);
 
             DemoMapper demoMapper = sqlSession.getMapper(DemoMapper.class);
 
