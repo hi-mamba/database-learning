@@ -1,3 +1,6 @@
+##### [Department Top Three Salaries](https://leetcode.com/problems/department-top-three-salaries/)
+
+##### [Mysql 查询每科目前两名学生及成绩](https://blog.csdn.net/xw791488540/article/details/88927441?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param)
 
 # Mysql 查询每科目前三名学生及成绩
 
@@ -21,7 +24,7 @@ INSERT INTO student VALUES('Mamba',2,92);
 
 ## 解决方案
 
-先查询排名前 n 的总数
+先查询排名前 3 的总数(3可以换成你先查询top n 的数)，
 
 ```mysql
 	
