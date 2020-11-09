@@ -134,9 +134,11 @@ systemctl disable firewalld
 ```
 启动数据库
 ```shell script
-[postgres@pgDatabase ~]$ pg_ctl -D /data/pgdata/ -l logfile start
+[postgres@pgDatabase ~]$ pg_ctl -D /tol/soft/postgresql/data -l /tol/soft/postgresql/log/logfile.log start
 server starting
 ```
+
+
 进入数据库修改postgres密码
 ```shell script
 $ psql
