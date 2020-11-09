@@ -186,7 +186,7 @@ readline.i386 : A library for editing typed command lines.
 [root@HK81-107 postgresql-9.0.0]# yum -y install -y readline-devel
 ```
 
-### [failure.  It is possible the compiler isn't looking in the proper directory.]()
+### failure.  It is possible the compiler isn't looking in the proper directory
 ```
 checking for inflate in -lz... no
 configure: error: zlib library not found
