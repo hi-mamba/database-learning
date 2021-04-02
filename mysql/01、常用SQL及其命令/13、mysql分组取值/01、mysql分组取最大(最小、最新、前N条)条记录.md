@@ -29,7 +29,7 @@ b	4	b4
 b	5	b5
 ```
 
-## 按name分组取val最大的值所在行的数据
+## 按`name分组`取val最大的值所在行的数据
 
 方法一：
 >select a.* from tb a where val = (select max(val) from tb where name = a.name) order by a.name
@@ -54,7 +54,7 @@ b	5	b5
 ```
 小编推荐使用第一、第三、第四钟方法,结果显示第1,3,4种方法效率相同，第2，5种方法效率差些。
 
-按name分组取val最小的值所在行的数据
+按n`ame分组`取val最小的值所在行的数据
 
 方法一：
 > select a.* from tb a where val = (select min(val) from tb where name = a.name) order by a.name
@@ -102,7 +102,7 @@ a	1	a1
 b	3	b3
 ```
 
-## 按name分组取最小的两个(N个)val
+## 按`name分组`取最小的两个(N个)val
 第一种方法：
 > select a.* from tb a where 2 > (select count(*) from tb where name = a.name and val < a.val ) order by a.name,a.val
 
