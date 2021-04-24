@@ -15,5 +15,10 @@
     80    10:10   4
     
 
+解决方案：
 
+字符串拼接 然后转换成整数，交卷时间 可以使用 24：00 去减法
+
+参考项目：
+/mamba-forever-lakers/mamba-out/mamba-training-camp/src/main/java/kobe/mamba/example/redis/SortExampleService.java
 

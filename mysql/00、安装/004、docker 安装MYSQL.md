@@ -26,6 +26,8 @@ shell> docker pull mysql/mysql-server:tag
 
 -d 表示容器在后台运行
  
+> docker run -p 3306:3306 -e MYSQL_ROOT_PASSWORD=密码 -d bb639ef9778e
+ 
 ## 进入docker 安装MYSQL 里
 
 查看 docker MYSQL 的 container id
