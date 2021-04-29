@@ -28,7 +28,25 @@ SQL 不同于与其他编程语言的最明显特征是处理代码的顺序。
  
 ```
 
-
+```
+--查询组合字段
+(5)select (5-2) distinct(5-3) top(<top_specification>)(5-1)<select_list>
+--连表
+(1)from (1-J)<left_table><join_type> join <right_table> on <on_predicate>
+        (1-A)<left_table><apply_type> apply <right_table_expression> as <alias>
+        (1-P)<left_table> pivot (<pivot_specification>) as <alias>
+        (1-U)<left_table> unpivot (<unpivot_specification>) as <alias>
+--查询条件
+(2)where <where_pridicate>
+--分组
+(3)group by <group_by_specification>
+--分组条件
+(4)having<having_predicate>
+--排序
+(6)order by<order_by_list>
+(7)limit <n,m>//MySQL支持limit Oracle sqlserver支持top
+————————————————
+```
 ## Mysql执行顺序，即在执行时sql按照下面的顺序进行执行：
 
 ```sql
