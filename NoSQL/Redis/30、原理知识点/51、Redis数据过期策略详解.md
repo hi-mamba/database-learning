@@ -193,7 +193,7 @@ redis 127.0.0.1:6379> SETEX KEY_NAME TIMEOUT VALUE
 databases 16
 ```
 
-- memcached只是用了惰性删除，而Redis同时使用了惰性删除与定期删除，这也是二者的一个不同点（可以看做是redis优于memcached的一点）
+- memcached只是用了惰性删除，而Redis同时使用了`惰性删除`与`定期删除`，这也是二者的一个不同点（可以看做是redis优于memcached的一点）
 
 - 对于惰性删除而言，并不是只有获取key的时候才会检查key是否过期，
 在某些设置key的方法上也会检查（eg.setnx key2 value2：该方法类似于memcached的add方法，如果设置的key2已经存在，
