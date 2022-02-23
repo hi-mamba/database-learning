@@ -25,7 +25,7 @@ Martin上来就问，我们要锁来干啥呢？两个原因：
 
 我们分析一下 RedLock 的有啥缺陷吧：
 
-![](../../../images/redis/unsafe-lock.png)
+![](../../images/redis/unsafe-lock.png)
 
 作者 Martin 给出这张图，首先我们上一讲说过，RedLock中，为了防止死锁，锁是具有过期时间的。这个过期时间被 Martin 抓住了小辫子。
 
@@ -119,7 +119,7 @@ NTP受到一个阶跃时钟更新，对于这个问题，需要通过运维来�
 
 说个题外话，读到这里我突然理解了运维同学的邮件：
 
-![](../../../images/redis/Screenshot_redis_lock.png)
+![](../../images/redis/Screenshot_redis_lock.png)
 
 所以严格来说确实， RedLock建立在了 Time 是可信的模型上，理论上 Time 也是发生错误，
 但是在现实中，良好的运维和工程一些机制是可以最大限度的保证 Time 可信。

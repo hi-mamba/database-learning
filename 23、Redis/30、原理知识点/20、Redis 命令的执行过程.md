@@ -36,7 +36,7 @@ redis的通信协议参考自redis的官网。
 - 同步数据到slave和aof
 
 
-![](../../../images/redis/redis_server_command_execute.png)
+![](../../images/redis/redis_server_command_execute.png)
 
 ## 命令请求的执行过程
 一个命令请求从发送到获得回复的过程中， 客户端和服务器需要完成一系列操作。

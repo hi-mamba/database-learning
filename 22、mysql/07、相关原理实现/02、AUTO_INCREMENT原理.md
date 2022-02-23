@@ -80,7 +80,7 @@ auto-increment计数器初始化以后，如果插入数据没有指定auto_incr
 如果是超过了比如上面定义的表t的bigint类型的最大值,同样会有警告,而且插入的数值是bigint类型所能存储的最大值18446744073709551615.
 
 在传统的auto_increment设置中,每次访问auto-increment计数器的时候, 
-INNODB都会加上一个名为`AUTO-INC锁`直到该语句结束(注意锁只持有到语句结束,不是事务结束).`AUTO-INC锁`是一个`特殊的表级别的锁`,
+INNODB都会加上一个名为`AUTO-INC锁`直到该语句结束(注意`锁只持有到语句结束,不是事务结束`).`AUTO-INC锁`是一个`特殊的表级别的锁`,
 用来提升包含auto_increment列的并发插入性能.因此,两个事务不能同时获取同一个表上面的AUTO-INC锁,
 如果持有AUTO-INC锁太长时间可能会影响到数据库性能(比如INSERT INTO t1... SELECT ... FROM t2这类语句).
 
@@ -163,4 +163,3 @@ bulk inserts指的是事先`无法确定插入行`数的语句，比如INSERT/RE
 
 
 
-   

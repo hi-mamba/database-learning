@@ -10,7 +10,7 @@ redis的集群脑裂是指因为`网络问题`，导致redis master节点跟redi
 此时存在两个不同的master节点，就像一个大脑分裂成了两个。
 
 ### 一、哨兵(sentinel)模式下的脑裂
-![](../../../images/redis/redis_sentinel_cluster_split_brain.png)
+![](../../images/redis/redis_sentinel_cluster_split_brain.png)
 redis sentinel cluster 脑裂图
 
 集群脑裂问题中，如果客户端还在基于原来的master节点继续写入数据，那么新的master节点将无法同步这些数据，
@@ -19,7 +19,7 @@ redis sentinel cluster 脑裂图
 
 ### 二、集群(cluster)模式下的脑裂
 
-![](../../../images/redis/redis_cluster_brain_split_01.png)
+![](../../images/redis/redis_cluster_brain_split_01.png)
 
 custer模式下，这种情况要更复杂，见上面的示意图，集群中有6组分片，每给分片节点都有1主1从，如果出现网络分区时，
 各种节点之间的分区组合都有可能，上面列了2种情况：
