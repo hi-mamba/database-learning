@@ -65,6 +65,14 @@ struct sdshdr {
 SDS `字符串缩短`时并不`立即使用内存重分配`来回收缩短后多出来的空间,
 而仅仅更新 SDS 的`len属性`，多出来的空间供将来使用。
 
+<img width="1207" alt="image" src="https://user-images.githubusercontent.com/7867225/157360574-83cf12cd-de4c-4dcf-9d6c-4f033b842645.png">
+
+sdstrim(s, "XY"); // 移除 SDS 字符串中的所有 'X' 和 'Y' 
+
+<img width="1196" alt="image" src="https://user-images.githubusercontent.com/7867225/157360550-c2bd0a07-b5b8-470f-9a7f-d8b0ab83f1cd.png">
+
+
+
 ### 这没真正释放空间，是否会导致内存泄漏呢?
 SDS为我们提供了真正释放SDS未使用空间的方法`sdsRemoveFreeSpace`
 
