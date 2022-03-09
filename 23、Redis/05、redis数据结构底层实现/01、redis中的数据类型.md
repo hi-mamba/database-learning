@@ -16,9 +16,11 @@ String 、Hash 、List 、Set 、Sorted set（zset）
 ## 底层数据结构
 
 ### String
-- 简单动态字符串SDS
+- 简单动态字符串SDS（raw）
 - int整数
 - embstr短字符串
+
+> 字符串对象的`编码`可以是 int 、 raw 或者 embstr
 
 ### List
 - 双向链表(linkedlist双向链表) 
