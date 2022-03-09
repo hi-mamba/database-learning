@@ -71,6 +71,9 @@ CPU硬件检测到`内存页`是`read-only`的，于是触发`页异常中断（
 于是主子进程各自持有独立的一份。
 
 
+数据修改之前的样子
+![image](https://user-images.githubusercontent.com/7867225/156731567-938a8dea-fd74-472d-b30b-7c2251658e2b.png)
 
- 
+数据修改之后的样子
+![image](https://user-images.githubusercontent.com/7867225/156733799-e302f56d-3680-43df-8609-00afb4505d9d.png)
 
