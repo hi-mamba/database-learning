@@ -9,13 +9,15 @@
 
 [redis三种集群模式](../03、基础知识/30、redis三种集群模式.md)
 
+Redis 的集群模式使用 `slots 插槽`
+
 ## 实现原理
 
 ### 数据分布
 Redis采用区中心的设计方案，通过虚拟16384个槽，将每个key映射到每一个具体的槽上，
 而每个redis节点可以负责管理一定数量的槽，假设有三个redis-cluster中有三个主节点，其槽可能分布如下图：
 
-![](../../../images/redis/cluster/redis_cluster_slots.png)
+![](../../images/redis/cluster/redis_cluster_slots.png)
 redis槽分布
 
 ### 节点通信
