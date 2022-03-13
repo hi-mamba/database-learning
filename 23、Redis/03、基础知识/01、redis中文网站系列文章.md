@@ -40,4 +40,5 @@ redis6.0 网络io 是一个`多线程`
 > 访问大量内存，或者删除大量的key,
 
 - 网络io (网卡打满 bigkey 的问题)
-- 
+![image](https://user-images.githubusercontent.com/7867225/158046215-9230a2c9-65e8-4390-9148-379f9429ded1.png)
+
