@@ -19,5 +19,7 @@ redis6.0 网络io 是一个`多线程`
 ## redis hash 表会装满吗？装满怎么办
 
 - 哈希表工作机制
+> 链式hash，当链式hash 到底阈值 进行rehash
+
 - rehash过程
 - 潜在影响
