@@ -21,17 +21,17 @@ Redis采用的过期策略是`定期删除+惰性删除`，但由于定期删除
  
 ## Redis 提供 6 种数据淘汰策略供用户选择
 
-1. volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选最近最少使用 的数据淘汰
+1. volatile-lru：从已设置过期时间的数据集（server.db[i].expires）中挑选`最近最少使用` 的数据淘汰
 
-2. volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选将要过期的数 据淘汰
+2. volatile-ttl：从已设置过期时间的数据集（server.db[i].expires）中挑选`将要过期的数` 据淘汰
 
-3. volatile-random：从已设置过期时间的数据集（server.db[i].expires）中任意选择数据 淘汰
+3. volatile-random：从已设置过期时间的数据集（server.db[i].expires）中`任意选择数据` 淘汰
 
-4. allkeys-lru：从数据集（server.db[i].dict）中挑选最近最少使用的数据淘汰
+4. allkeys-lru：从数据集（server.db[i].dict）中挑选`最近最少使用`的数据淘汰
 
-5. allkeys-random：从数据集（server.db[i].dict）中任意选择数据淘汰
+5. allkeys-random：从数据集（server.db[i].dict）中任`意选择数据淘汰`
 
-6. no-enviction（驱逐）：禁止驱逐数据 ，不淘汰数据，直接报错
+6. no-enviction（驱逐）：禁止驱逐数据 ，`不淘汰数据，直接报错`
 
 
 - 1，版本不同，默认的策略不同
