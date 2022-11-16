@@ -4,6 +4,8 @@
 
 <https://github.com/dtm-labs/rockscache/blob/main/helper/README-cn.md>
 
+<https://zhenghe.gitbook.io/open-courses/system-design/cache-consistency-and-coherence>
+
 [Redis缓存与SQL数据库的一致性](https://yunpengn.github.io/blog/2019/05/04/consistent-redis-sql/)
 > Consistency between Redis Cache and SQL Database
 
