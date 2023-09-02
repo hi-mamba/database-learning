@@ -9,6 +9,8 @@
 
 ## mysql5.7 : LIMIT Query Optimization
 
+[mysql8.0 LIMIT Query Optimization](https://dev.mysql.com/doc/refman/8.0/en/limit-optimization.html)
+
 ![image](https://github.com/hi-mamba/database-learning/assets/7867225/2af4bcf9-8f46-4134-9404-0b36f2a77488)
 
 机器翻译： 如果多行在 ORDER BY 列中具有相同的值，则服务器可以自由地以任何顺序返回这些行，并且可能会根据整体执行计划以不同的方式返回这些行。
