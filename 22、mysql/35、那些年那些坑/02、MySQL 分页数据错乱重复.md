@@ -1,9 +1,22 @@
 
 <https://www.cnblogs.com/zhuiluoyu/p/8127129.html>
 
+<https://dev.mysql.com/doc/refman/5.7/en/limit-optimization.html>
+
 [MySQL · 答疑解惑 · MySQL Sort 分页](http://mysql.taobao.org/monthly/2015/06/04/)
 
 # MySQL 分页数据错乱重复 
+
+## mysql5.7 : LIMIT Query Optimization
+
+![image](https://github.com/hi-mamba/database-learning/assets/7867225/2af4bcf9-8f46-4134-9404-0b36f2a77488)
+
+机器翻译： 如果多行在 ORDER BY 列中具有相同的值，则服务器可以自由地以任何顺序返回这些行，并且可能会根据整体执行计划以不同的方式返回这些行。
+换句话说，这些行的排序顺序相对于无序列来说是不确定的。
+
+> 影响执行计划的因素之一是 LIMIT，因此带有和不带有 LIMIT 的 ORDER BY 查询可能会以不同的顺序返回行
+
+解决方案：
 
 ## 原因调查
 在MySQL 5.6的版本上，优化器在遇到order by limit语句的时候，做了一个优化，
