@@ -16,7 +16,11 @@
 
 > 影响执行计划的因素之一是 LIMIT，因此带有和不带有 LIMIT 的 ORDER BY 查询可能会以不同的顺序返回行
 
-解决方案：
+### 解决方案：
+![image](https://github.com/hi-mamba/database-learning/assets/7867225/8d598f48-f44a-442a-9cc0-f6c39e6eacc0)
+
+如果在使用和不使用 LIMIT 的情况下确保相同的行顺序很重要，请在 ORDER BY 子句中包含其他列以使顺序`具有​​确定性`。
+ > 例如，如果 id 值是唯一的，则可以通过如下排序使给定类别值的行按 id 顺序显示
 
 ## 原因调查
 在MySQL 5.6的版本上，优化器在遇到order by limit语句的时候，做了一个优化，
